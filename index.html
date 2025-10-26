@@ -149,7 +149,7 @@
 			box-sizing: border-box;
 			height: auto;
 			max-width: 100%;
-			vertical-align: bottom;
+			vertical-align: middle;
 		}
 
 		.wp-block-separator {
@@ -225,21 +225,47 @@
 			border-radius: 9999px;
 		}
 
-		/* Μείωση κενών για Πρόσφατα Νέα και Πρόσφατα Άρθρα */
-		.news-items .wp-block-group.is-nowrap,
-		.articles-section .wp-block-group.is-nowrap {
-			gap: var(--wp--preset--spacing--30) !important;
+		/* Στυλ για στοιχεία σε μία γραμμή */
+		.inline-item {
+			display: flex;
+			align-items: center;
+			gap: var(--wp--preset--spacing--30);
 			margin-bottom: var(--wp--preset--spacing--30);
 		}
 
-		.news-items .wp-block-image,
-		.articles-section .wp-block-image {
+		.inline-item .wp-block-image {
+			flex-shrink: 0;
 			margin: 0 !important;
 		}
 
-		.news-items .wp-block-group.is-vertical,
-		.articles-section .wp-block-group.is-vertical {
-			gap: 0 !important;
+		.inline-item .wp-block-image img {
+			width: 60px;
+			height: auto;
+		}
+
+		.inline-content {
+			flex: 1;
+		}
+
+		.inline-content .has-secondary-color {
+			margin: 0;
+			line-height: 1.3;
+		}
+
+		.inline-content p {
+			margin: 0;
+			line-height: 1.3;
+		}
+
+		/* Μείωση κενών για λίστες */
+		.news-items,
+		.articles-section {
+			margin-top: var(--wp--preset--spacing--40) !important;
+		}
+
+		.news-items .wp-block-group,
+		.articles-section .wp-block-post {
+			margin-bottom: var(--wp--preset--spacing--40);
 		}
 	</style>
 </head>
@@ -285,43 +311,39 @@
 				<hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background is-style-default" style="background-color:#ffffff26;color:#ffffff26">
 				<h2 class="wp-block-heading has-medium-font-size" style="text-transform:uppercase">πρόσφατα νεα</h2>
 
-				<div class="wp-block-group is-nowrap is-layout-flex">
+				<div class="inline-item">
 					<figure class="wp-block-image size-full is-resized">
-						<img loading="lazy" width="512" height="512" src="Images/Icons/server.png" alt="" style="width:73px;height:auto">
+						<img loading="lazy" width="512" height="512" src="Images/Icons/server.png" alt="" style="width:60px;height:auto">
 					</figure>
-					<div class="wp-block-group is-vertical is-layout-flex">
-						<p class="has-secondary-color has-text-color has-large-font-size"><em>Νέο modpack για το Καλοκαίρι</em></p>
-						<p>– FlopDroid 1.1</p>
+					<div class="inline-content">
+						<p class="has-secondary-color has-text-color has-large-font-size"><em>Νέο modpack για το Καλοκαίρι</em><br>– FlopDroid 1.1</p>
 					</div>
 				</div>
 
-				<div class="wp-block-group is-nowrap is-layout-flex">
+				<div class="inline-item">
 					<figure class="wp-block-image size-full is-resized">
-						<img loading="lazy" width="512" height="512" src="Images/Icons/server.png" alt="" style="width:73px;height:auto">
+						<img loading="lazy" width="512" height="512" src="Images/Icons/server.png" alt="" style="width:60px;height:auto">
 					</figure>
-					<div class="wp-block-group is-vertical is-layout-flex">
-						<p class="has-secondary-color has-text-color has-large-font-size"><em>Νέο update στον Sealand</em></p>
-						<p>– #πληροφορίες</p>
+					<div class="inline-content">
+						<p class="has-secondary-color has-text-color has-large-font-size"><em>Νέο update στον Sealand</em><br>– #πληροφορίες</p>
 					</div>
 				</div>
 
-				<div class="wp-block-group is-nowrap is-layout-flex">
+				<div class="inline-item">
 					<figure class="wp-block-image size-large is-resized">
-						<img loading="lazy" width="512" height="512" src="Images/Icons/server.png" alt="" style="width:71px;height:auto">
+						<img loading="lazy" width="512" height="512" src="Images/Icons/server.png" alt="" style="width:60px;height:auto">
 					</figure>
-					<div class="wp-block-group is-vertical is-layout-flex">
-						<p class="has-secondary-color has-text-color has-large-font-size"><em>Νέος Sealand Server</em></p>
-						<p>– Έκδοση: 1.21.4</p>
+					<div class="inline-content">
+						<p class="has-secondary-color has-text-color has-large-font-size"><em>Νέος Sealand Server</em><br>– Έκδοση: 1.21.4</p>
 					</div>
 				</div>
 
-				<div class="wp-block-group is-nowrap is-layout-flex">
+				<div class="inline-item">
 					<figure class="wp-block-image size-large is-resized">
-						<img loading="lazy" width="512" height="512" src="Images/Icons/discord.png" alt="" style="width:80px;height:auto">
+						<img loading="lazy" width="512" height="512" src="Images/Icons/discord.png" alt="" style="width:60px;height:auto">
 					</figure>
-					<div class="wp-block-group is-vertical is-layout-flex">
-						<p class="has-secondary-color has-text-color has-large-font-size"><em>Σύνδεση Discord μέσω του Minecraft chat</em></p>
-						<p>– #minecraft-chat</p>
+					<div class="inline-content">
+						<p class="has-secondary-color has-text-color has-large-font-size"><em>Σύνδεση Discord μέσω του Minecraft chat</em><br>– #minecraft-chat</p>
 					</div>
 				</div>
 			</div>
@@ -333,45 +355,45 @@
 				<div class="wp-block-query has-global-padding is-layout-constrained">
 					<ul class="wp-block-post-template is-layout-flow">
 						<li class="wp-block-post">
-							<div class="wp-block-group is-nowrap is-layout-flex">
+							<div class="inline-item">
 								<figure class="wp-block-image size-full is-resized">
-									<img loading="lazy" width="1052" height="1123" src="Images/Icons/flopdroid-event-logo.png" alt="flopdroid_event_logo" style="width:73px;height:auto">
+									<img loading="lazy" width="1052" height="1123" src="Images/Icons/flopdroid-event-logo.png" alt="flopdroid_event_logo" style="width:60px;height:auto">
 								</figure>
-								<div class="wp-block-group has-large-font-size is-vertical is-layout-flex">
-									<h2 style="font-style:normal;font-weight:400;text-transform:none;" class="wp-block-post-title has-large-font-size">
+								<div class="inline-content">
+									<h2 style="font-style:normal;font-weight:400;text-transform:none;margin:0;line-height:1.3;" class="wp-block-post-title has-large-font-size">
 										<a href="https://flopdroid.wordpress.com/2025/06/22/δωρεάν-και-νόμιμα-rp-στο-league-of-legends/" target="_self">Δωρεάν και νόμιμα RP στο League of&nbsp;Legends</a>
 									</h2>
-									<div style="font-style:normal;font-weight:400;line-height:1.3;text-transform:none; margin-top:4px;" class="nowrap wp-block-post-date has-text-color has-foreground-color has-medium-font-size">
+									<div style="font-style:normal;font-weight:400;line-height:1.3;text-transform:none;margin-top:2px;" class="nowrap wp-block-post-date has-text-color has-foreground-color has-medium-font-size">
 										<time datetime="2025-06-22T18:07:11+03:00">Ιον. 22, 2025</time>
 									</div>
 								</div>
 							</div>
 						</li>
 						<li class="wp-block-post">
-							<div class="wp-block-group is-nowrap is-layout-flex">
+							<div class="inline-item">
 								<figure class="wp-block-image size-full is-resized">
-									<img loading="lazy" width="1052" height="1123" src="Images/Icons/flopdroid-event-logo.png" alt="flopdroid_event_logo" style="width:73px;height:auto">
+									<img loading="lazy" width="1052" height="1123" src="Images/Icons/flopdroid-event-logo.png" alt="flopdroid_event_logo" style="width:60px;height:auto">
 								</figure>
-								<div class="wp-block-group has-large-font-size is-vertical is-layout-flex">
-									<h2 style="font-style:normal;font-weight:400;text-transform:none;" class="wp-block-post-title has-large-font-size">
+								<div class="inline-content">
+									<h2 style="font-style:normal;font-weight:400;text-transform:none;margin:0;line-height:1.3;" class="wp-block-post-title has-large-font-size">
 										<a href="https://flopdroid.wordpress.com/2025/06/12/πώς-να-ρυθμίσεις-και-να-εγκαταστήσεις-τα-modpacks/" target="_self">Πώς να ρυθμίσεις και να εγκαταστήσεις τα&nbsp;Modpacks;</a>
 									</h2>
-									<div style="font-style:normal;font-weight:400;line-height:1.3;text-transform:none; margin-top:4px;" class="nowrap wp-block-post-date has-text-color has-foreground-color has-medium-font-size">
+									<div style="font-style:normal;font-weight:400;line-height:1.3;text-transform:none;margin-top:2px;" class="nowrap wp-block-post-date has-text-color has-foreground-color has-medium-font-size">
 										<time datetime="2025-06-12T01:38:27+03:00">Ιον. 12, 2025</time>
 									</div>
 								</div>
 							</div>
 						</li>
 						<li class="wp-block-post">
-							<div class="wp-block-group is-nowrap is-layout-flex">
+							<div class="inline-item">
 								<figure class="wp-block-image size-full is-resized">
-									<img loading="lazy" width="1052" height="1123" src="Images/Icons/flopdroid-event-logo.png" alt="flopdroid_event_logo" style="width:73px;height:auto">
+									<img loading="lazy" width="1052" height="1123" src="Images/Icons/flopdroid-event-logo.png" alt="flopdroid_event_logo" style="width:60px;height:auto">
 								</figure>
-								<div class="wp-block-group has-large-font-size is-vertical is-layout-flex">
-									<h2 style="font-style:normal;font-weight:400;text-transform:none;" class="wp-block-post-title has-large-font-size">
+								<div class="inline-content">
+									<h2 style="font-style:normal;font-weight:400;text-transform:none;margin:0;line-height:1.3;" class="wp-block-post-title has-large-font-size">
 										<a href="https://flopdroid.wordpress.com/2025/06/03/τι-είναι-το-cave-horror/" target="_self">Τι είναι το Cave&nbsp;Horror;</a>
 									</h2>
-									<div style="font-style:normal;font-weight:400;line-height:1.3;text-transform:none; margin-top:4px;" class="nowrap wp-block-post-date has-text-color has-foreground-color has-medium-font-size">
+									<div style="font-style:normal;font-weight:400;line-height:1.3;text-transform:none;margin-top:2px;" class="nowrap wp-block-post-date has-text-color has-foreground-color has-medium-font-size">
 										<time datetime="2025-06-03T14:02:25+03:00">Ιον. 3, 2025</time>
 									</div>
 								</div>
