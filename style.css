@@ -218,12 +218,11 @@ h6 {
     border-radius: 9999px;
 }
 
-/* Στυλ για στοιχεία σε μία γραμμή */
+/* Στυλ για στοιχεία σε μία γραμμή - ΜΙΚΡΑ ΚΕΝΑ */
 .inline-item {
     display: flex;
     align-items: center;
     gap: var(--wp--preset--spacing--30);
-    margin-bottom: var(--wp--preset--spacing--30);
 }
 
 .inline-item .wp-block-image {
@@ -250,15 +249,10 @@ h6 {
     line-height: 1.3;
 }
 
-/* Μείωση κενών για λίστες */
-.news-items,
-.articles-section {
-    margin-top: var(--wp--preset--spacing--40) !important;
-}
-
+/* ΜΕΓΑΛΑ ΚΕΝΑ ΑΝΑΜΕΣΑ ΣΤΙΣ ΟΜΑΔΕΣ ΣΤΟΙΧΕΙΩΝ */
 .news-items .wp-block-group,
 .articles-section .wp-block-post {
-    margin-bottom: var(--wp--preset--spacing--40);
+    margin-bottom: var(--wp--preset--spacing--60) !important;
 }
 
 .wp-block-post-template {
@@ -268,5 +262,11 @@ h6 {
 }
 
 .wp-block-post {
-    margin-bottom: var(--wp--preset--spacing--40);
+    margin-bottom: var(--wp--preset--spacing--60);
+}
+
+/* Μεγάλα κενά για τις ενότητες */
+.wp-block-group.has-global-padding {
+    margin-top: var(--wp--preset--spacing--60);
+    margin-bottom: var(--wp--preset--spacing--60);
 }
