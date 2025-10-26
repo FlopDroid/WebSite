@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Τι είναι το ZeroTier; – FlopDroid</title>
+    <style>
+        :root {
+            --primary-color: #8182ff;
+            --secondary-color: #ffffff;
+            --foreground-color: #c8d2d4;
+            --background-color: #272938;
+            --tertiary-color: #0b121e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--foreground-color);
+            font-family: 'Lato', sans-serif;
+            line-height: 1.75;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 40px;
+        }
+        
+        .logo {
+            border-radius: 9999px;
+            margin: 0 auto 20px;
+            width: 140px;
+            height: auto;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 30px 0 15px;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            color: var(--foreground-color);
+            text-decoration: none;
+        }
+        
+        .media-text {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .media-text img {
+            width: 80px;
+            height: auto;
+            margin-right: 20px;
+        }
+        
+        mark {
+            background-color: transparent;
+        }
+        
+        .highlight-orange {
+            color: #ff6900;
+        }
+        
+        .highlight-yellow {
+            color: #fcb900;
+        }
+        
+        .highlight-primary {
+            color: var(--primary-color);
+        }
+        
+        .highlight-blue {
+            color: #8ed1fc;
+        }
+        
+        ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        blockquote {
+            border-left: 1px solid var(--primary-color);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: normal;
+        }
+        
+        pre {
+            background-color: var(--tertiary-color);
+            border: 0.5px solid var(--foreground-color);
+            border-radius: 0;
+            font-family: monospace;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px 0;
+            border-top: 1px solid var(--foreground-color);
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 0.875rem;
+        }
+        
+        .image-caption {
+            font-style: italic;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .media-text {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .media-text img {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://flopdroid.wordpress.com/wp-content/uploads/2025/04/flopdroid-event-logo.png" alt="FlopDroid Logo" class="logo">
+            <h1>FlopDroid</h1>
+        </header>
+
+        <main>
+            <h2>Τι είναι το ZeroTier;</h2>
+            
+            <div class="post-meta">
+                <div class="post-date">Απρ. 18, 2025</div>
+                <div class="post-categories">Συνδεσιμότητα, Minecraft</div>
+            </div>
+            
+            <div class="media-text">
+                <img src="https://flopdroid.wordpress.com/wp-content/uploads/2025/04/zerotier.png" alt="ZeroTier">
+                <div>
+                    <p>Το <strong>ZeroTier</strong> είναι μια εφαρμογή που μπορεί να σε συνδέσει σε ένα εικονικό τοπικό δίκτυο προκειμένου να μπορείς να συνδέεσαι σε έναν <mark class="highlight-orange">server</mark>. Γιατί χρειάζεται όμως αυτό;</p>
+                </div>
+            </div>
+
+            <p>Τα <mark class="highlight-orange">router</mark> έχουν μια δυνατότητα που ονομάζεται <mark class="highlight-yellow">port forwading</mark>. Μέσω αυτού μπορούν όλοι οι υπολογιστές να συνδεθούν από τα άλλα routers στον <mark class="highlight-orange">υπολογιστή/server</mark>. Στην ουσία πρέπει να ανοίξει μια «<mark class="highlight-yellow">πόρτα</mark>» όπου ονομάζεται θύρα προκειμένου να μπορούν να επικοινωνούν μέσω της συγκεκριμένης «<mark class="highlight-yellow">πόρτας</mark>» οι υπολογιστές. Δεν γίνετε οι συσκευές να επικοινωνούν <strong>απευθείας</strong> με μια άλλη συσκευή εκτός του <mark class="highlight-orange">router</mark>. Όμως μερικά router δεν υποστηρίζουν το <mark class="highlight-yellow">port forwading</mark> με αποτέλεσμα ένας <mark class="highlight-orange">server</mark> να μην μπορεί να εκτελεστεί εκτός του τοπικού δικτύου του δηλαδή εντός των συσκευών που είναι συνδεδεμένες στο ίδιο <mark class="highlight-orange">router</mark> με αυτόν. Από την άλλη υπάρχουν και φορές που δεν υπάρχει διαθέσιμο router οπότε μια πολύ καλή, εύκολη και ασφαλή λύση είναι το ZeroTier που δημιουργεί ένα εικονικό τοπικό δίκτυο. Όταν συνδέεσαι στο ZeroTier είσαι συνδεδεμένος σε 3 κατηγορίες οι οποίες είναι το Τοπικό, το Εξωτερικό και του ZeroTier. Με ή χωρίς το ZeroTier εσύ έχεις κανονικά πρόσβαση στις 2 πρώτες. Χάρις την <strong>ασφάλεια</strong> που παρέχει είναι πιο <strong>ασφαλές</strong> από ότι αν έμπαινες στον server μέσω του <mark class="highlight-yellow">port forwading</mark>.</p>
+
+            <p>Ως ενναλακτική είναι πολύ καλή μόνο που έχει και κάποια μειονεκτήματα σχετικά με την ταχύτητα του δικτύου και πως οι πιο αδύναμες συσκευές ίσως έχουν μεγαλύτερα προβλήματα με τις επιδόσεις.</p>
+
+            <h3><strong>Τι χρειάζεται να κάνεις εσύ ως client/πελάτης/χρήστης</strong></h3>
+
+            <p>Ως χρήστης δεν χρειάζεται να κάνεις περίεργες και δύσκολες ρυθμίσεις. Παρά μόνο να κατεβάσεις την επίσημη εφαρμογή του ZeroTier. Υπάρχουν επιλογές για όλα τα λειτουργικά συστήματα (multi-platform). Για τα Windows υπάρχουν 2 επιλογές. Η μια είναι η έκδοση <a href="https://download.zerotier.com/dist/ZeroTier%20One.msi">1.14.0</a> και η <a href="https://download.zerotier.com/RELEASES/1.6.6/dist/ZeroTier%20One.msi">1.6.6</a>. Οι 2 αυτές εκδόσεις κάνουν μια χαρά την δουλειά τους. Όμως προτείνεται η έκδοση <a href="https://download.zerotier.com/dist/ZeroTier%20One.msi">1.14.0</a> στα Windwos 10-11, ενώ για Windows 7 η <a href="https://download.zerotier.com/RELEASES/1.6.6/dist/ZeroTier%20One.msi">1.6.6</a>.</p>
+
+            <div class="media-text">
+                <img src="https://flopdroid.wordpress.com/wp-content/uploads/2025/04/%25CE%2592%25CE%25AD%25CE%25BB%25CE%25BF%25CF%2582%2520%25CE%25B3%25CF%2581%25CE%25B1%25CE%25BC%25CE.png" alt="ZeroTier Menu">
+                <div>
+                    <p>Αφού κατεβεί και εγκατασταθεί σωστά θα εμφανίζεται κάτω στην <mark class="highlight-blue">γραμμή εργαλείων</mark> στο <mark class="highlight-blue">βέλος</mark> που είναι δίπλα από την αλλαγή της γλώσσας. Εκεί πατώντας το βέλος θα είναι σε μικρή εικόνα το λογότυπο του ZeroTier. Με δεξί ή αριστερό κλικ θα εμφανιστεί το menu του ZeroTier.</p>
+                </div>
+            </div>
+
+            <p>Πάνω στην κόκκινη γραμμή θα βρεις το id σου. Κάνοντας κλικ πάνω σε αυτό γίνετε αντιγραφή στο πρόχειρο. Μετά πατώντας «Join Network» εισάγεις το id του δικτύου της <strong><mark class="highlight-yellow">FlopDroid</mark></strong> (είναι στο Discord) και φυσικά ενεργοποιείς το «Allow DNS». Ως χρήστης θα χρειαστεί να στείλεις στο #support το Node Id σου. Προκειμένου να επαληθευτεί η ταυτότητά σου. Όταν εγκριθείς από τους admins θα εμφανίζεται μια εικόνα όπως η κάτω. Προτείνεται επίσης να πατήσεις το «Preferences…» στο ZeroTier και μετά να βγάλεις το «Launch ZeroTier On Startup» που είναι η πρώτη ρύθμιση προκειμένου να μην ανοίγει πάντα. Οπότε κάθε φορά που θα ανοίγεις την συσκευή σου π.χ. Windows θα πας στην αναζήτηση και θα πληκτρολογείς ZeroTier και έπειτα πατώντας το πλήκτρο «Enter» θα ανοίγει διακριτικά. Στο Minecraft θα χρειαστεί να βάλεις μια συγκεκριμένη ip που θα σταλθεί από την FlopDroid (συνήθως υπάρχει καθυστέρηση στο Join και πολλές φορές θέλει να πατήσεις «Cancel» και μετά ξανά «Join»).</p>
+
+            <div class="media-text">
+                <img src="https://flopdroid.wordpress.com/wp-content/uploads/2025/04/ZeroTier%20menu.png" alt="ZeroTier Menu Interface">
+                <div>
+                    <p>Πάνω στην κόκκινη γραμμή θα βρεις το id σου. Κάνοντας κλικ πάνω σε αυτό γίνετε αντιγραφή στο πρόχειρο. Μετά πατώντας «Join Network» εισάγεις το id του δικτύου της <strong><mark class="highlight-yellow">FlopDroid</mark></strong> (είναι στο Discord) και φυσικά ενεργοποιείς το «Allow DNS».</p>
+                </div>
+            </div>
+
+            <h3>Άρα τελικά τι θα κάνει;</h3>
+
+            <p>Τελικά αυτή η εφαρμογή θα φροντίζει να διαμεσολαβεί στον server, την συσκευή σου και τις υπόλοιπες συσκευές του συγκεκριμένου δικτύου του ZeroTier. Από μεριά επιδόσεων εξαρτάται κυρίως από την σύνδεσή σου στο internet. Όμως το ίδιο πάντα εκτελείται παρασκηνιακά όταν ανοίγεις τον υπολογιστή σου. Κάτι που δεν χρειάζεται να προκαλεί άγχος. Εννοείτε η FlopDroid δεν έχει καμιά ευθύνη για την πολιτική απορρήτου και την ασφάλεια που παρέχει το ZeroTier. Κλείνοντας το συγκεκριμένο άρθρο θέλαμε να ευχαριστήσουμε τους αναγνώστες του άρθρου.</p>
+
+            <p>Για επιπλέον βοήθεια θα μας βρείτε στο <strong>Discord</strong></p>
+        </main>
+
+        <footer>
+            <p>FlopDroid 2025 ©<br><strong><a href="https://raw.githubusercontent.com/FlopDroid/Pocket_Data/refs/heads/main/plain/Privacy%20Policy%20and%20Terms%20of%20Use%20and%20Credits.txt" target="_blank" rel="noreferrer noopener">Όροι Χρήσης και Πολιτική Απορρήτου</a></strong></p>
+        </footer>
+    </div>
+</body>
+</html>
