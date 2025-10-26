@@ -10,6 +10,9 @@
     --wp--preset--font-size--x-large: 1.728rem;
     --wp--preset--font-size--xx-large: 2.074rem;
     --wp--preset--font-size--xxx-large: 2.5rem;
+    --wp--preset--spacing--50: 1.75rem;
+    --wp--preset--spacing--60: 2.625rem;
+    --wp--preset--spacing--80: 5.25rem;
 }
 
 body {
@@ -17,7 +20,7 @@ body {
     color: var(--wp--preset--color--foreground);
     font-family: Arial, sans-serif;
     font-size: var(--wp--preset--font-size--medium);
-    line-height: 1.6;
+    line-height: 1.75;
     margin: 0;
     padding: 0;
 }
@@ -34,17 +37,20 @@ a:hover {
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--wp--preset--color--primary);
+    font-family: Arial, sans-serif;
     font-weight: 700;
+    line-height: calc(1em + 0.75rem);
     margin: 0 0 1rem 0;
 }
 
 h1 {
     font-size: var(--wp--preset--font-size--xxx-large);
+    line-height: calc(1em + 0.4375rem);
 }
 
 h2 {
     font-size: var(--wp--preset--font-size--xx-large);
-    margin-bottom: 0.5rem;
+    line-height: calc(1em + 0.5rem);
 }
 
 .wp-block-button__link {
@@ -52,11 +58,12 @@ h2 {
     border-radius: 999px;
     border: none;
     color: var(--wp--preset--color--background);
+    font-family: inherit;
     font-size: var(--wp--preset--font-size--small);
-    padding: 6px 20px;
+    line-height: 1.5;
+    padding: 8px 32px;
     text-decoration: none;
     display: inline-block;
-    margin: 2px;
 }
 
 .wp-block-button__link:hover {
@@ -66,20 +73,23 @@ h2 {
 
 .wp-block-buttons {
     display: flex;
-    gap: 8px;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
 .wp-site-blocks {
-    padding: 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: var(--wp--preset--spacing--50);
+}
+
+.has-global-padding {
+    padding-right: var(--wp--preset--spacing--50);
+    padding-left: var(--wp--preset--spacing--50);
 }
 
 .is-layout-flex {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1rem;
 }
 
 .is-nowrap {
@@ -89,11 +99,15 @@ h2 {
 .is-vertical {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 0.5rem;
 }
 
 .is-content-justification-right {
     justify-content: flex-end;
+}
+
+.is-content-justification-center {
+    justify-content: center;
 }
 
 .wp-block-image img {
@@ -106,9 +120,10 @@ h2 {
 }
 
 .wp-block-separator {
-    background-color: #ffffff26;
+    background-color: var(--wp--preset--color--foreground);
     border: none;
-    height: 1px;
+    border-bottom: 1px solid var(--wp--preset--color--tertiary);
+    color: var(--wp--preset--color--tertiary);
     margin: 1.5rem 0;
 }
 
@@ -141,6 +156,7 @@ h2 {
     background: transparent;
     border: 2px solid currentColor;
     color: currentColor;
+    padding: 6px 20px;
 }
 
 .is-style-rounded--5 {
@@ -154,13 +170,13 @@ h2 {
     z-index: 10;
     background-color: var(--wp--preset--color--background);
     padding: 0.5rem 0;
-    margin-bottom: 1rem;
 }
 
 .wp-block-post-title {
     color: var(--wp--preset--color--secondary);
-    font-size: var(--wp--preset--font-size--large);
+    font-size: var(--wp--preset--font-size--x-large);
     font-weight: 400;
+    line-height: 1.4;
     margin: 0;
 }
 
@@ -177,6 +193,7 @@ h2 {
 .wp-block-post-date {
     color: var(--wp--preset--color--secondary);
     font-size: var(--wp--preset--font-size--small);
+    line-height: 1.5;
     margin: 0;
 }
 
@@ -202,16 +219,15 @@ h2 {
 
 .wp-block-post {
     margin-bottom: 1rem;
-    padding: 0.5rem 0;
 }
 
 p {
     margin: 0 0 0.5rem 0;
-    line-height: 1.4;
+    line-height: calc(1em + 0.75rem);
 }
 
 .custom-logo {
-    width: 80px;
+    width: 120px;
     height: auto;
 }
 
@@ -219,17 +235,54 @@ p {
     margin: 0;
 }
 
-/* Μείωση gaps για τα news items */
+.wp-block-query {
+    margin: 0;
+}
+
+/* Κενά όπως στο αρχικό */
 .wp-block-group.is-nowrap.is-layout-flex {
     margin-bottom: 0.8rem;
     padding: 0.3rem 0;
 }
 
-.wp-block-group.is-nowrap.is-layout-flex .wp-block-image {
-    margin: 0;
-}
-
 .wp-block-group.is-vertical.is-layout-flex p {
     margin: 0;
     line-height: 1.3;
+}
+
+/* Στοίχιση όπως στο αρχικό */
+.wp-container-4 {
+    top: 0;
+    position: sticky;
+    z-index: 10;
+}
+
+.wp-container-core-group-is-layout-c0d519fa {
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.wp-container-core-buttons-is-layout-d445cf74 {
+    justify-content: flex-end;
+}
+
+.wp-container-core-group-is-layout-6c531013 {
+    flex-wrap: nowrap;
+}
+
+.wp-container-core-group-is-layout-4b827052 {
+    gap: 0;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.wp-container-core-group-is-layout-f01a8a75 {
+    flex-wrap: nowrap;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.wp-container-core-group-is-layout-877c468d {
+    flex-wrap: nowrap;
+    gap: 1rem;
 }
