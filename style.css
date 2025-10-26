@@ -96,10 +96,6 @@ h2 {
     justify-content: flex-end;
 }
 
-.is-content-justification-center {
-    justify-content: center;
-}
-
 .wp-block-image img {
     height: auto;
     max-width: 100%;
@@ -236,29 +232,4 @@ p {
 .wp-block-group.is-vertical.is-layout-flex p {
     margin: 0;
     line-height: 1.3;
-}
-
-/* Κέντραρισμα για τα στοιχεία που πρέπει να είναι στο κέντρο */
-.wp-block-group.aligncenter,
-footer.aligncenter,
-.has-text-align-center {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.wp-block-query {
-    width: 100%;
-}
-
-.wp-block-post-template {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.wp-block-post {
-    width: 100%;
-    max-width: 600px;
 }
