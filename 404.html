@@ -6,6 +6,21 @@
     <title>Σφάλμα 404</title>
     <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/gray_fd_event_logo.png" type="image/x-icon">
     <link rel="stylesheet" href="Pages/style.css">
+    <style>
+/* Αφαιρεί background από όλα τα κουμπιά menu ΜΟΝΟ σε αυτή τη σελίδα */
+.wp-block-button__link {
+    background: transparent !important;
+    color: var(--wp--preset--color--primary) !important;
+    border: 2px solid var(--wp--preset--color--primary) !important;
+}
+
+/* Στο hover */
+.wp-block-button__link:hover {
+    background: transparent !important;
+    color: var(--wp--preset--color--secondary) !important;
+    border-color: var(--wp--preset--color--secondary) !important;
+}
+</style>
 </head>
 <body class="home blog">
     <div class="wp-site-blocks">
