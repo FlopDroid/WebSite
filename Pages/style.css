@@ -67,23 +67,22 @@ h5 { font-size: var(--wp--preset--font-size--medium); }
 h6 { font-size: var(--wp--preset--font-size--small); }
 
 .wp-block-button__link {
-    background-color: var(--wp--preset--color--primary);
+    background-color: #3a3a3a; /* Ανοιχτό γκρι φόντο */
+    color: #ffffff;            /* Άσπρο κείμενο */
+    border: 2px solid #ffffff; /* Άσπρο περίγραμμα */
     border-radius: 999px;
-    border-width: 0;
-    color: var(--wp--preset--color--background);
-    font-family: inherit;
-    font-size: var(--wp--preset--font-size--small);
-    line-height: 1.5;
     padding: 8px 32px;
     text-decoration: none;
     display: inline-block;
-    transition: all 0.3s ease;
+    font-size: 0.875rem;
 }
 
 .wp-block-button__link:hover {
-    background-color: var(--wp--preset--color--secondary);
-    color: var(--wp--preset--color--background);
+    background-color: #8182ff; /* Μωβ στο hover */
+    color: #ffffff;            /* Κείμενο παραμένει άσπρο */
+    border-color: #8182ff;
 }
+
 
 .wp-block-buttons {
     display: flex;
