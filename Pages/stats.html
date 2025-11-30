@@ -1,138 +1,86 @@
 <!DOCTYPE html>
 <html lang="el-GR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stats</title>
-    <link rel="stylesheet" href="https://flopdroid.github.io/WebSite/Pages/style.css">
-    
+    <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+
     <style>
-        :root {
-            --primary-color: #8182ff;
-            --secondary-color: #ffffff;
-            --foreground-color: #c8d2d4;
-            --background-color: #272938;
-            --tertiary-color: #0b121e;
+        /* Κουμπιά menu – ίδια όπως στο about */
+        .wp-block-button__link {
+            background: transparent !important;
+            color: #ffffff !important;               /* Άσπρο κείμενο */
+            border: 2px solid #ffffff !important;    /* Άσπρο περίγραμμα */
+            border-radius: 999px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* Hover */
+        .wp-block-button__link:hover {
+            background: transparent !important;
+            color: #8182ff !important;               /* Μωβ στο hover */
+            border-color: #8182ff !important;
         }
 
-        body {
-            background-color: var(--background-color);
-            color: var(--foreground-color);
-            font-family: 'Lato', sans-serif;
-            line-height: 1.75;
-            margin: 0;
-            padding: 20px;
+        /* Media-text όπως στο about */
+        .media-text {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 40px;
-        }
-
-        .logo {
-            border-radius: 9999px;
-            margin: 0 auto 20px;
-            width: 140px;
+        .media-text img {
+            width: 50px;
             height: auto;
         }
 
-        h1, h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        p, i, b {
-            margin-bottom: 15px;
-        }
-
-        a {
-            color: var(--primary-color);
-            text-decoration: underline;
-        }
-
-        a:hover {
-            color: var(--secondary-color);
-            text-decoration: none;
-        }
-
-        .media-text {
-            display: flex;
-            flex-direction: column;
-            margin: 20px 0;
-        }
-
-        iframe {
-            border: none;
-            border-radius: 10px;
-            margin-top: 20px;
-            max-width: 100%;
+        .media-text p {
+            margin: 0;
         }
 
         footer {
             text-align: center;
             margin-top: 60px;
             padding: 20px 0;
-            border-top: 1px solid var(--foreground-color);
+            border-top: 1px solid var(--wp--preset--color--foreground);
         }
-
-.wp-block-button__link {
-    background: transparent !important;
-    color: #ffffff !important;                  
-    border: 2px solid #ffffff !important;        
-    border-radius: 999px;
-}
-
-/* Hover */
-.wp-block-button__link:hover {
-    background: transparent !important;
-    color: #8182ff !important;
-    border-color: #8182ff !important;
-}
-</style>
-
+    </style>
 </head>
 <body>
-    <!-- Menu -->
-<div class="wp-block-group is-vertical is-layout-flex is-position-sticky">
-    <div class="wp-block-buttons is-content-justification-right is-layout-flex">
-        <div class="wp-block-button is-style-outline is-style-outline--1">
-            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
-        </div>
-        <div class="wp-block-button is-style-outline is-style-outline--2">
-            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Minecraft">Minecraft</a>
-        </div>
-        <div class="wp-block-button is-style-outline is-style-outline--3">
-            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Help">Help</a>
-        </div>
-        <div class="wp-block-button is-style-outline is-style-outline--2">
-            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/stats.html">Stats</a>
-        </div>
-        <div class="wp-block-button is-style-outline is-style-outline--3">
-            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/about.html">About</a>
-        </div>
-    </div>
-</div>
+    <div class="wp-site-blocks">
 
-    <div class="container">
-        <header>
-            <img src="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" alt="FlopDroid Logo" class="logo">
+        <!-- Menu -->
+        <div class="wp-block-group is-vertical is-layout-flex is-position-sticky">
+            <div class="wp-block-buttons is-content-justification-right is-layout-flex">
+                <div class="wp-block-button is-style-outline is-style-outline--1">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Minecraft">Minecraft</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Help">Help</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/stats.html">Stats</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/about.html">About</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header με logo και τίτλο -->
+        <header style="text-align:center; margin-top:40px;">
+            <img src="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" alt="FlopDroid Logo" style="width:140px; border-radius:999px;">
             <h1>FlopDroid</h1>
         </header>
 
-        <main>
+        <!-- Main content -->
+        <main class="container">
             <h2>Stats</h2>
 
             <div class="media-text">
@@ -142,16 +90,25 @@
             </div>
 
             <iframe src="https://discord.com/widget?id=1237738371590127666&theme=dark" width="350" height="550" allowtransparency="true" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+
+            <p>Για ότι τεχνικό θέμα προκύψει μπορείτε να κάνετε άμεση αναφορά στο 
+                <a href="https://discord.com/invite/7N7QuxeW6D" target="_blank" rel="noreferrer noopener">Discord</a> 
+                ή στο 
+                <a href="https://www.instagram.com/flopdroid/" target="_blank" rel="noreferrer noopener">Instagram</a>.
+            </p>
         </main>
-                <p>Για ότι τεχνικό θέμα προκύψει μπορείτε να κάνετε άμεση αναφορά στο 
-                    <a href="https://discord.com/invite/7N7QuxeW6D" target="_blank" rel="noreferrer noopener">Discord</a> 
-                    ή στο 
-                    <a href="https://www.instagram.com/flopdroid/" target="_blank" rel="noreferrer noopener">Instagram</a>.
-                </p>
+
+        <!-- Footer -->
         <footer>
-            <p>FlopDroid 2025 ©<br><strong><a href="https://raw.githubusercontent.com/FlopDroid/Pocket_Data/refs/heads/main/plain/Privacy%20Policy%20and%20Terms%20of%20Use%20and%20Credits.txt" target="_blank" rel="noreferrer noopener">Όροι Χρήσης και Πολιτική Απορρήτου</a></strong></p>
+            <p>FlopDroid 2025 ©<br>
+                <strong>
+                    <a href="https://raw.githubusercontent.com/FlopDroid/Pocket_Data/refs/heads/main/plain/Privacy%20Policy%20and%20Terms%20of%20Use%20and%20Credits.txt" target="_blank" rel="noreferrer noopener">
+                        Όροι Χρήσης και Πολιτική Απορρήτου
+                    </a>
+                </strong>
+            </p>
         </footer>
+
     </div>
 </body>
 </html>
-
