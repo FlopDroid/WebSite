@@ -87,9 +87,45 @@
             padding: 20px 0;
             border-top: 1px solid var(--foreground-color);
         }
-    </style>
+
+.wp-block-button__link {
+    background: transparent !important;
+    color: #ffffff !important;                  
+    border: 2px solid #ffffff !important;        
+    border-radius: 999px;
+}
+
+/* Hover */
+.wp-block-button__link:hover {
+    background: transparent !important;
+    color: #8182ff !important;
+    border-color: #8182ff !important;
+}
+</style>
+
 </head>
 <body>
+    <!-- Menu -->
+<div class="wp-block-group is-vertical is-layout-flex is-position-sticky">
+    <div class="wp-block-buttons is-content-justification-right is-layout-flex">
+        <div class="wp-block-button is-style-outline is-style-outline--1">
+            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
+        </div>
+        <div class="wp-block-button is-style-outline is-style-outline--2">
+            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Minecraft">Minecraft</a>
+        </div>
+        <div class="wp-block-button is-style-outline is-style-outline--3">
+            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Help">Help</a>
+        </div>
+        <div class="wp-block-button is-style-outline is-style-outline--2">
+            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/stats.html">Stats</a>
+        </div>
+        <div class="wp-block-button is-style-outline is-style-outline--3">
+            <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/about.html">About</a>
+        </div>
+    </div>
+</div>
+
     <div class="container">
         <header>
             <img src="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" alt="FlopDroid Logo" class="logo">
