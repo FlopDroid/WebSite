@@ -274,3 +274,19 @@ h6 {
 .wp-block-site-title a {
     color: white;
 }
+
+<style>
+/* Αφαιρεί background από όλα τα κουμπιά menu ΜΟΝΟ σε αυτή τη σελίδα */
+.wp-block-button__link {
+    background: transparent !important;
+    color: var(--wp--preset--color--primary) !important;
+    border: 2px solid var(--wp--preset--color--primary) !important;
+}
+
+/* Στο hover */
+.wp-block-button__link:hover {
+    background: transparent !important;
+    color: var(--wp--preset--color--secondary) !important;
+    border-color: var(--wp--preset--color--secondary) !important;
+}
+</style>
