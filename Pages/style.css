@@ -67,11 +67,11 @@ h5 { font-size: var(--wp--preset--font-size--medium); }
 h6 { font-size: var(--wp--preset--font-size--small); }
 
 .wp-block-button__link {
-    background-color: #3a3a3a; /* Ανοιχτό γκρι φόντο */
-    color: #ffffff;            /* Άσπρο κείμενο */
-    border: 2px solid #ffffff; /* Άσπρο περίγραμμα */
-    border-radius: 999px;
-    padding: 8px 32px;
+    background-color: #3a3a3a00; /* Ανοιχτό γκρι φόντο */
+    color: #c8d2d4;            /* Άσπρο κείμενο */
+    border: 2px solid #c8d2d4; /* Άσπρο γκρι */
+    border-radius: 400px;
+    padding: 8px 22px;
     text-decoration: none;
     display: inline-block;
     font-size: 0.875rem;
