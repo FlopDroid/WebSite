@@ -198,3 +198,8 @@ h6 { font-size: var(--wp--preset--font-size--small); }
 .wp-block-post { margin-bottom: var(--wp--preset--spacing--60); }
 
 .wp-block-site-title a { color: white; }
+
+
+.main-title {
+    color: #ffffff !important;
+}
