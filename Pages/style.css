@@ -276,6 +276,10 @@ header {
 header img.logo,
 header img {
     transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    max-width: 100%;
 }
 
 .is-style-rounded--5 img,
@@ -484,8 +488,11 @@ button:focus-visible {
     }
 
     .wp-block-site-logo img,
-    header img.logo {
-        width: 84px;
+    header img.logo,
+    header img {
+        width: 84px !important;
+        height: 84px !important;
+        object-fit: cover;
     }
 
     .wp-block-site-title.has-xxx-large-font-size {
@@ -509,6 +516,14 @@ button:focus-visible {
     header .wp-block-group.is-nowrap.is-layout-flex {
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .wp-block-site-logo img,
+    header img.logo,
+    header img {
+        width: 72px !important;
+        height: 72px !important;
+        object-fit: cover;
     }
 }
 
