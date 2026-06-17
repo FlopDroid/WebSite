@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
     <title>FlopDroid – Official FlopDroid Website</title>
-    <link rel="stylesheet" href="Pages/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://flopdroid.github.io/WebSite/Pages/style.css">
 </head>
 
 <body class="home blog">
@@ -13,7 +16,7 @@
         <div class="wp-block-group is-vertical is-content-justification-right is-layout-flex is-position-sticky">
             <div class="wp-block-buttons is-content-justification-right is-layout-flex">
                 <div class="wp-block-button is-style-outline is-style-outline--1">
-                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite" aria-current="page">Home</a>
                 </div>
                 <div class="wp-block-button is-style-outline is-style-outline--2">
                     <a class="wp-block-button__link" href="Pages/Minecraft">Minecraft</a>
@@ -47,11 +50,11 @@
         </header>
 
         <div class="wp-block-group has-global-padding is-layout-constrained" style="margin-bottom:var(--wp--preset--spacing--80)">
-            <p>Η FlopDroid είναι μια εταιρία που δραστηριοποιείται κυρίως στο hosting των <b>Minecraft Servers</b></p>
+            <p class="hero-lead">Η FlopDroid είναι μια εταιρία που δραστηριοποιείται κυρίως στο hosting των <b>Minecraft Servers</b></p>
 
             <div class="wp-block-group has-global-padding is-layout-constrained news-items" style="margin-top:var(--wp--preset--spacing--60)">
                 <hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background is-style-default" style="background-color:#ffffff26;color:#ffffff26">
-                <h2 class="wp-block-heading has-medium-font-size" style="text-transform:uppercase">πρόσφατα νεα</h2>
+                <h2 class="wp-block-heading has-medium-font-size section-eyebrow"><span class="live-dot" aria-hidden="true"></span>πρόσφατα νεα</h2>
 
                 <div class="inline-item">
                     <figure class="wp-block-image size-full is-resized">
@@ -92,7 +95,7 @@
 
             <div class="wp-block-group has-global-padding is-layout-constrained articles-section" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--60)">
                 <hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background" style="background-color:#ffffff26;color:#ffffff26">
-                <h2 class="wp-block-heading has-medium-font-size" style="text-transform:uppercase">Πρόσφατα άρθρα</h2>
+                <h2 class="wp-block-heading has-medium-font-size section-eyebrow">Πρόσφατα άρθρα</h2>
 
                 <div class="wp-block-query has-global-padding is-layout-constrained">
                     <ul class="wp-block-post-template is-layout-flow">
