@@ -276,8 +276,8 @@ header {
 header img.logo,
 header img {
     transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-    width: 140px;
-    height: 140px;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
     max-width: 100%;
 }
@@ -490,8 +490,8 @@ button:focus-visible {
     .wp-block-site-logo img,
     header img.logo,
     header img {
-        width: 84px !important;
-        height: 84px !important;
+        width: 135px !important;
+        height: 135px !important;
         object-fit: cover;
     }
 
@@ -521,8 +521,8 @@ button:focus-visible {
     .wp-block-site-logo img,
     header img.logo,
     header img {
-        width: 72px !important;
-        height: 72px !important;
+        width: 118px !important;
+        height: 118px !important;
         object-fit: cover;
     }
 }
