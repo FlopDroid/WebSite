@@ -1,0 +1,466 @@
+/* =========================================================
+   FlopDroid Store — component styles
+   Built entirely on top of the tokens already defined in
+   style.css (--primary, --surface, --radius-md, etc.)
+   ========================================================= */
+
+.container { max-width: 980px; margin: 0 auto; padding: 0 var(--wp--preset--spacing--30); }
+.container.narrow { max-width: 640px; }
+
+/* ---------- Top bar: currency + account ---------- */
+.store-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding: 0.6rem var(--wp--preset--spacing--50) 0;
+}
+
+.coin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-dim);
+    border: 1px solid rgba(94, 234, 212, 0.3);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 0.4em 1em 0.4em 0.7em;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: default;
+}
+.coin-pill .coin-emoji { font-size: 1.05em; }
+.coin-pill .coin-amount { font-variant-numeric: tabular-nums; }
+.coin-pill.bump { animation: coinBump 0.4s var(--ease); }
+@keyframes coinBump {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(94, 234, 212, 0.15); }
+    100% { transform: scale(1); }
+}
+
+.account-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text-soft);
+    border-radius: 999px;
+    padding: 0.4em 1em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.account-chip:hover { color: var(--text); border-color: var(--primary); transform: translateY(-1px); }
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-soft);
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.icon-btn:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+.icon-btn svg { width: 18px; height: 18px; }
+
+.cart-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--primary);
+    color: #0d0e16;
+    font-size: 0.65rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    transform: scale(0);
+    transition: transform 0.25s var(--ease);
+}
+.cart-badge.show { transform: scale(1); }
+
+/* ---------- Hero ---------- */
+.store-hero {
+    text-align: center;
+    padding: var(--wp--preset--spacing--60) 0 var(--wp--preset--spacing--50);
+}
+.store-hero h1 { margin-bottom: 0.4rem; }
+.store-hero p { color: var(--text-soft); max-width: 560px; margin: 0 auto; }
+
+/* ---------- Filter row ---------- */
+.filter-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: var(--wp--preset--spacing--50);
+}
+.filter-chip {
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-soft);
+    border-radius: 999px;
+    padding: 0.45em 1.1em;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+}
+.filter-chip:hover { color: var(--text); border-color: var(--primary); }
+.filter-chip.active {
+    color: var(--bg);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-color: transparent;
+}
+
+/* ---------- Product grid: Minecraft-slot inspired cards ---------- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--wp--preset--spacing--40);
+    margin-bottom: var(--wp--preset--spacing--70);
+}
+
+.product-card {
+    background: linear-gradient(180deg, var(--surface), var(--surface-2));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--wp--preset--spacing--40);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 127, 255, 0.4);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* the "slot": deliberately squared-off, bevelled like a Minecraft
+   inventory slot, but rendered in the site's own palette */
+.item-slot {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-sm);
+    background: var(--bg-soft);
+    border: 2px solid var(--border-strong);
+    box-shadow:
+        inset 2px 2px 0 rgba(255, 255, 255, 0.04),
+        inset -2px -2px 0 rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.product-card:hover .item-slot {
+    border-color: var(--primary);
+    box-shadow:
+        inset 2px 2px 0 rgba(255, 255, 255, 0.06),
+        inset -2px -2px 0 rgba(0, 0, 0, 0.35),
+        0 0 0 3px var(--primary-dim);
+}
+.item-slot img {
+    width: 68%;
+    height: 68%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+    transition: transform 0.3s var(--ease);
+}
+.product-card:hover .item-slot img { transform: scale(1.08) rotate(-2deg); }
+
+.stock-tag {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--warn);
+    background: rgba(13, 14, 22, 0.75);
+    padding: 1px 6px;
+    border-radius: 6px;
+}
+.stock-tag.out { color: #ff8b8b; }
+
+.product-card h4 { margin: 0.2rem 0 0; }
+.product-card .category-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+}
+.product-card .desc { color: var(--text-soft); font-size: 0.85rem; margin: 0; flex: 1; }
+
+.product-card .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+}
+.price-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-display);
+}
+
+.btn-primary, .btn-secondary, .btn-danger {
+    border: none;
+    border-radius: 999px;
+    padding: 0.55em 1.3em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+.btn-primary {
+    color: #0d0e16;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 127, 255, 0.35); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-secondary {
+    color: var(--text-soft);
+    background: transparent;
+    border: 1px solid var(--border-strong);
+}
+.btn-secondary:hover { color: var(--text); border-color: var(--primary); transform: translateY(-2px); }
+.btn-danger { color: #ff8b8b; background: rgba(255, 139, 139, 0.1); border: 1px solid rgba(255, 139, 139, 0.3); }
+.btn-danger:hover { background: rgba(255, 139, 139, 0.18); transform: translateY(-2px); }
+.btn-block { width: 100%; }
+
+/* ---------- Cart drawer ---------- */
+.drawer-overlay {
+    position: fixed; inset: 0;
+    background: rgba(6, 7, 12, 0.6);
+    backdrop-filter: blur(2px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s var(--ease);
+    z-index: 200;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+.cart-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    height: 100%;
+    width: min(400px, 92vw);
+    background: var(--bg-soft);
+    border-left: 1px solid var(--border);
+    transform: translateX(100%);
+    transition: transform 0.35s var(--ease);
+    z-index: 201;
+    display: flex;
+    flex-direction: column;
+    padding: var(--wp--preset--spacing--40);
+}
+.cart-drawer.open { transform: translateX(0); }
+.cart-drawer h3 { display: flex; align-items: center; justify-content: space-between; }
+.cart-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.7rem; margin: 1rem 0; }
+
+.cart-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem;
+    animation: fadeUp 0.3s var(--ease) both;
+}
+.cart-row .item-slot { width: 44px; height: 44px; flex-shrink: 0; }
+.cart-row .cart-row-info { flex: 1; min-width: 0; }
+.cart-row .cart-row-info p { margin: 0; font-size: 0.85rem; color: var(--text); }
+.cart-row .cart-row-info span { font-size: 0.75rem; color: var(--text-faint); }
+.qty-control { display: flex; align-items: center; gap: 0.4rem; }
+.qty-control button {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid var(--border-strong); background: transparent; color: var(--text-soft);
+    cursor: pointer; font-size: 0.8rem; line-height: 1;
+}
+.qty-control button:hover { border-color: var(--accent); color: var(--accent); }
+
+.cart-empty { text-align: center; color: var(--text-faint); padding: 2rem 0; }
+
+.cart-summary { border-top: 1px solid var(--border); padding-top: 1rem; }
+.cart-summary .total-row { display: flex; justify-content: space-between; font-weight: 700; color: var(--text); margin-bottom: 0.8rem; }
+
+/* ---------- Modals ---------- */
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(6, 7, 12, 0.65);
+    backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s var(--ease);
+    z-index: 300;
+    padding: 1rem;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal-box {
+    background: linear-gradient(180deg, var(--surface), var(--surface-2));
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: var(--wp--preset--spacing--50);
+    width: 100%;
+    max-width: 380px;
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+    box-shadow: var(--shadow-glow);
+    max-height: 88vh;
+    overflow-y: auto;
+}
+.modal-overlay.open .modal-box { transform: translateY(0) scale(1); opacity: 1; }
+.modal-box h3 { margin-top: 0; }
+.modal-close {
+    position: absolute; top: 14px; right: 14px;
+    background: none; border: none; color: var(--text-faint);
+    font-size: 1.2rem; cursor: pointer;
+}
+.modal-box { position: relative; }
+
+.field { margin-bottom: 0.9rem; }
+.field label { display: block; font-size: 0.8rem; color: var(--text-soft); margin-bottom: 0.35rem; }
+.field input, .field select, .field textarea {
+    width: 100%;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 0.6em 0.8em;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-dim);
+}
+.field-error { color: #ff8b8b; font-size: 0.8rem; margin-top: 0.4rem; min-height: 1em; }
+.form-switch { text-align: center; font-size: 0.85rem; color: var(--text-faint); margin-top: 1rem; }
+.form-switch a { cursor: pointer; }
+
+/* ---------- Toasts ---------- */
+.toast-stack {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 400;
+}
+.toast {
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1.1rem;
+    color: var(--text);
+    font-size: 0.85rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+    animation: toastIn 0.3s var(--ease);
+    max-width: 300px;
+}
+.toast.error { border-left-color: #ff8b8b; }
+@keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.toast.leaving { animation: toastOut 0.25s var(--ease) forwards; }
+@keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+
+/* ---------- Account panel ---------- */
+.account-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+.account-summary .balance-number {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+}
+.order-item { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.8rem 1rem; margin-bottom: 0.6rem; }
+.order-item .order-head { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-soft); margin-bottom: 0.4rem; }
+.status-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 9px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+.status-badge.pending { background: rgba(255, 184, 107, 0.15); color: var(--warn); }
+.status-badge.delivered { background: var(--accent-dim); color: var(--accent); }
+.status-badge.cancelled { background: rgba(255, 139, 139, 0.15); color: #ff8b8b; }
+
+/* ---------- Admin ---------- */
+.admin-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: var(--wp--preset--spacing--40); }
+.admin-tab {
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-soft);
+    border-radius: 999px;
+    padding: 0.5em 1.2em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+}
+.admin-tab:hover { color: var(--text); }
+.admin-tab.active { background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--bg); border-color: transparent; }
+
+.admin-panel { display: none; animation: fadeUp 0.4s var(--ease) both; }
+.admin-panel.active { display: block; }
+
+.admin-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 0.6rem; flex-wrap: wrap; }
+
+.data-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.data-table th, .data-table td { text-align: left; padding: 0.7rem 0.9rem; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+.data-table th { color: var(--text-faint); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.06em; background: var(--surface-2); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr { transition: background 0.2s var(--ease); }
+.data-table tbody tr:hover { background: var(--primary-dim); }
+.data-table .row-actions { display: flex; gap: 0.4rem; }
+.data-table .row-actions button { padding: 0.3em 0.8em; font-size: 0.75rem; }
+
+.table-wrap { overflow-x: auto; border-radius: var(--radius-md); }
+
+.admin-guard { text-align: center; padding: var(--wp--preset--spacing--70) 0; }
+
+.spinner {
+    width: 22px; height: 22px;
+    border: 3px solid var(--border-strong);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.skeleton {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 37%, var(--surface) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: var(--radius-sm);
+}
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+@media (max-width: 600px) {
+    .store-topbar { justify-content: center; flex-wrap: wrap; }
+    .admin-toolbar { flex-direction: column; align-items: stretch; }
+}

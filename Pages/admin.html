@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Admin</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://flopdroid.github.io/WebSite/Pages/style.css">
+    <link rel="stylesheet" href="assets/store-style.css">
+</head>
+<body>
+    <div class="wp-site-blocks">
+
+        <div class="wp-block-group is-vertical is-content-justification-right is-layout-flex is-position-sticky">
+            <div class="wp-block-buttons is-content-justification-right is-layout-flex">
+                <div class="wp-block-button is-style-outline is-style-outline--1">
+                    <a class="wp-block-button__link" href="store.html">← Back to Store</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="store-hero" style="padding-top:var(--wp--preset--spacing--50);">
+                <h1>Store Admin</h1>
+                <p>Manage products, orders, users and currency.</p>
+            </div>
+
+            <!-- Shown when not signed in as admin -->
+            <div id="guardBox" class="admin-guard">
+                <div class="spinner"></div>
+                <p style="color:var(--text-faint);margin-top:1rem;">Checking access…</p>
+            </div>
+
+            <!-- Shown once verified as admin -->
+            <div id="adminApp" style="display:none;">
+
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="products">Products</button>
+                    <button class="admin-tab" data-tab="orders">Orders</button>
+                    <button class="admin-tab" data-tab="users">Users &amp; Currency</button>
+                    <button class="admin-tab" data-tab="codes">Redeem Codes</button>
+                </div>
+
+                <!-- PRODUCTS -->
+                <div class="admin-panel active" id="panel-products">
+                    <div class="admin-toolbar">
+                        <span style="color:var(--text-faint);font-size:0.85rem;">Products shown in the store are marked active.</span>
+                        <button class="btn-primary" id="newProductBtn">+ New product</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th></th></tr></thead>
+                            <tbody id="productsTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ORDERS -->
+                <div class="admin-panel" id="panel-orders">
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead><tr><th>Date</th><th>User</th><th>MC username</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+                            <tbody id="ordersTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- USERS -->
+                <div class="admin-panel" id="panel-users">
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead><tr><th>Username</th><th>MC username</th><th>Balance</th><th>Admin</th><th>Grant currency</th></tr></thead>
+                            <tbody id="usersTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CODES -->
+                <div class="admin-panel" id="panel-codes">
+                    <div class="admin-toolbar">
+                        <span style="color:var(--text-faint);font-size:0.85rem;">Give players a code in-game; they redeem it on the account panel.</span>
+                        <button class="btn-primary" id="newCodeBtn">+ New code</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead><tr><th>Code</th><th>Amount</th><th>Uses</th><th></th></tr></thead>
+                            <tbody id="codesTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product edit modal -->
+    <div class="modal-overlay" id="productOverlay">
+        <div class="modal-box">
+            <button class="modal-close" data-close-modal>&times;</button>
+            <h3 id="productModalTitle">New product</h3>
+            <form id="productForm">
+                <input type="hidden" id="pId">
+                <div class="field"><label>Name</label><input type="text" id="pName" required></div>
+                <div class="field"><label>Description</label><textarea id="pDesc" rows="2"></textarea></div>
+                <div class="field"><label>Image URL</label><input type="text" id="pImage" required></div>
+                <div class="field"><label>Category</label><input type="text" id="pCategory" placeholder="e.g. Ranks, Crates, Cosmetics"></div>
+                <div class="field"><label>Price (🪙)</label><input type="number" id="pPrice" min="0" required></div>
+                <div class="field"><label>Stock (leave blank for unlimited)</label><input type="number" id="pStock" min="0"></div>
+                <div class="field"><label><input type="checkbox" id="pActive" checked style="width:auto;"> Active (visible in store)</label></div>
+                <button class="btn-primary btn-block" type="submit">Save product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Code create modal -->
+    <div class="modal-overlay" id="codeOverlay">
+        <div class="modal-box">
+            <button class="modal-close" data-close-modal>&times;</button>
+            <h3>New redeem code</h3>
+            <form id="codeForm">
+                <div class="field"><label>Code</label><input type="text" id="cCode" placeholder="e.g. FLOP-1000" required></div>
+                <div class="field"><label>Amount (🪙)</label><input type="number" id="cAmount" min="1" required></div>
+                <div class="field"><label>Max uses</label><input type="number" id="cMaxUses" min="1" value="1" required></div>
+                <button class="btn-primary btn-block" type="submit">Create code</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <script src="assets/db.js"></script>
+    <script src="assets/admin.js"></script>
+</body>
+</html>

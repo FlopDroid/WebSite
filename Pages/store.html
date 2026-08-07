@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://flopdroid.github.io/WebSite/Pages/style.css">
+    <link rel="stylesheet" href="assets/store-style.css">
+</head>
+<body>
+    <div class="wp-site-blocks">
+
+        <!-- Menu -->
+        <div class="wp-block-group is-vertical is-content-justification-right is-layout-flex is-position-sticky">
+            <div class="wp-block-buttons is-content-justification-right is-layout-flex">
+                <div class="wp-block-button is-style-outline is-style-outline--1">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/PagesMinecraft">Minecraft</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Help">Help</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/stats.html">Stats</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/about.html">About</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--1">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/store.html" aria-current="page">Store</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top bar: currency + account + cart -->
+        <div class="store-topbar">
+            <div id="coinPill" class="coin-pill" style="display:none;">
+                <span class="coin-emoji">🪙</span>
+                <span class="coin-amount" id="coinAmount">0</span>
+            </div>
+            <button id="accountChip" class="account-chip">Sign in</button>
+            <button id="cartBtn" class="icon-btn" title="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span id="cartBadge" class="cart-badge">0</span>
+            </button>
+        </div>
+
+        <div class="container">
+            <div class="store-hero">
+                <h1>FlopDroid Store</h1>
+                <p>Spend the <strong>FlopCoins</strong> you earn on the server here. Sign in with the account you used to sign up, and make sure it's linked to the right Minecraft username.</p>
+            </div>
+
+            <div class="filter-row" id="filterRow"></div>
+
+            <div class="product-grid" id="productGrid">
+                <!-- filled by store.js -->
+                <div class="item-slot skeleton" style="aspect-ratio:auto;height:220px;"></div>
+                <div class="item-slot skeleton" style="aspect-ratio:auto;height:220px;"></div>
+                <div class="item-slot skeleton" style="aspect-ratio:auto;height:220px;"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>FlopDroid 2025 ©<br>
+                <strong><a href="https://raw.githubusercontent.com/FlopDroid/Pocket_Data/refs/heads/main/plain/Privacy%20Policy%20and%20Terms%20of%20Use%20and%20Credits.txt" target="_blank" rel="noreferrer noopener">Όροι Χρήσης και Πολιτική Απορρήτου</a></strong>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Cart drawer -->
+    <div id="drawerOverlay" class="drawer-overlay"></div>
+    <div id="cartDrawer" class="cart-drawer">
+        <h3>Your Cart <button class="modal-close" id="closeCart" style="position:static;font-size:1.4rem;">&times;</button></h3>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-summary">
+            <div class="total-row"><span>Total</span><span id="cartTotal">🪙 0</span></div>
+            <button class="btn-primary btn-block" id="checkoutBtn">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Sign in modal -->
+    <div class="modal-overlay" id="signInOverlay">
+        <div class="modal-box">
+            <button class="modal-close" data-close-modal>&times;</button>
+            <h3>Sign in</h3>
+            <form id="signInForm">
+                <div class="field"><label>Username or email</label><input type="text" id="siUser" required></div>
+                <div class="field"><label>Password</label><input type="password" id="siPass" required></div>
+                <div class="field-error" id="siError"></div>
+                <button class="btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+            <p class="form-switch">No account? <a data-switch-to="signUp">Sign up</a></p>
+        </div>
+    </div>
+
+    <!-- Sign up modal -->
+    <div class="modal-overlay" id="signUpOverlay">
+        <div class="modal-box">
+            <button class="modal-close" data-close-modal>&times;</button>
+            <h3>Create account</h3>
+            <form id="signUpForm">
+                <div class="field"><label>Username</label><input type="text" id="suUser" required></div>
+                <div class="field"><label>Minecraft username</label><input type="text" id="suMc" required placeholder="So we know who to deliver items to"></div>
+                <div class="field"><label>Email (optional)</label><input type="email" id="suEmail"></div>
+                <div class="field"><label>Password</label><input type="password" id="suPass" required></div>
+                <div class="field-error" id="suError"></div>
+                <button class="btn-primary btn-block" type="submit">Sign up</button>
+            </form>
+            <p class="form-switch">Already have an account? <a data-switch-to="signIn">Sign in</a></p>
+        </div>
+    </div>
+
+    <!-- Account modal -->
+    <div class="modal-overlay" id="accountOverlay">
+        <div class="modal-box" style="max-width:460px;">
+            <button class="modal-close" data-close-modal>&times;</button>
+            <h3>My account</h3>
+            <div class="account-summary">
+                <div>
+                    <div style="font-size:0.8rem;color:var(--text-faint);">Balance</div>
+                    <div class="balance-number"><span id="acctBalance">0</span> 🪙</div>
+                </div>
+                <div style="flex:1;text-align:right;font-size:0.85rem;color:var(--text-soft);">
+                    <div id="acctUsername"></div>
+                    <div id="acctMc" style="color:var(--text-faint);"></div>
+                </div>
+            </div>
+
+            <div class="field" style="display:flex;gap:0.5rem;align-items:flex-end;">
+                <div style="flex:1;">
+                    <label>Redeem code</label>
+                    <input type="text" id="redeemInput" placeholder="e.g. FLOP-1000">
+                </div>
+                <button class="btn-secondary" id="redeemBtn">Redeem</button>
+            </div>
+            <div class="field-error" id="redeemError"></div>
+
+            <h4 style="margin-top:1.4rem;">Order history</h4>
+            <div id="orderHistory"><p style="color:var(--text-faint);font-size:0.85rem;">No orders yet.</p></div>
+
+            <button class="btn-secondary btn-block" id="signOutBtn" style="margin-top:1rem;">Sign out</button>
+        </div>
+    </div>
+
+    <div class="toast-stack" id="toastStack"></div>
+
+    <script src="assets/db.js"></script>
+    <script src="assets/store.js"></script>
+</body>
+</html>
