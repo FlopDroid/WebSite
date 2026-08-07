@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
+    <title>Τι είναι τελικά το Minecraft; – FlopDroid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://flopdroid.github.io/WebSite/Pages/style.css">
+    <style>
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 var(--wp--preset--spacing--30);
+        }
+
+        article header {
+            text-align: center;
+            margin-bottom: var(--wp--preset--spacing--50);
+            padding-top: var(--wp--preset--spacing--40);
+        }
+
+        article header img.logo {
+            border-radius: 9999px;
+            margin: 0 auto 20px;
+            width: 170px;
+            height: 170px;
+            object-fit: cover;
+        }
+
+        h1#article-title {
+            color: var(--text);
+            font-size: var(--wp--preset--font-size--xxx-large);
+            margin-bottom: 6px;
+        }
+
+        h2 { margin: 30px 0 15px; }
+        h3 { margin: 25px 0 15px; }
+        p { margin-bottom: 15px; line-height: 1.7; }
+
+        .media-text {
+            display: flex;
+            align-items: center;
+            gap: var(--wp--preset--spacing--30);
+            margin: var(--wp--preset--spacing--40) 0;
+            background: linear-gradient(180deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.2rem 1.4rem;
+        }
+
+        .media-text img {
+            width: 64px;
+            height: auto;
+            flex-shrink: 0;
+            border-radius: var(--radius-sm);
+        }
+
+        .large-image {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            margin: var(--wp--preset--spacing--40) auto;
+            display: block;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        ul {
+            margin-left: 24px;
+            margin-bottom: 20px;
+        }
+
+        li { margin-bottom: 8px; }
+
+        .post-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: var(--wp--preset--spacing--40);
+            font-size: 0.875rem;
+            color: var(--text-faint);
+        }
+
+        .post-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .image-caption {
+            font-style: italic;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: var(--wp--preset--spacing--40);
+            font-size: 0.9rem;
+            color: var(--text-faint);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: linear-gradient(180deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        td, th {
+            border: 1px solid var(--border);
+            padding: 14px;
+            text-align: center;
+            color: var(--text-soft);
+        }
+
+        tr:first-child td {
+            background: var(--surface-2);
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        figcaption {
+            text-align: center;
+            color: var(--text-faint);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            margin-bottom: var(--wp--preset--spacing--40);
+        }
+
+        .wp-block-embed {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .wp-block-embed iframe {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        mark { background-color: transparent; }
+        .has-inline-color { font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .media-text { flex-direction: column; text-align: center; }
+            .post-meta { flex-direction: column; gap: 8px; }
+            .large-image { max-width: 100%; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="wp-site-blocks">
+        <!-- Menu -->
+        <div class="wp-block-group is-vertical is-content-justification-right is-layout-flex is-position-sticky">
+            <div class="wp-block-buttons is-content-justification-right is-layout-flex">
+                <div class="wp-block-button is-style-outline is-style-outline--1">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Minecraft">Minecraft</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Help">Help</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/stats.html">Stats</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/about.html">About</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <article>
+                <header>
+                    <img src="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" alt="FlopDroid Logo" class="logo">
+                    <h1 id="article-title">FlopDroid</h1>
+                </header>
+
+                <main>
+                    <h2>Τι είναι τελικά το Minecraft;</h2>
+
+                    <div class="post-meta">
+                        <span class="post-date">Αυγ. 27, 2025</span>
+                        <span class="post-categories">Games, Minecraft, Mods/Plugins, Mojang Minecraft, TL Minecraft</span>
+                    </div>
+
+                    <div class="media-text">
+                        <img src="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Minecraft/Minecraft_popular-image.jpg" alt="Minecraft">
+                        <div>
+                            <p>Το γνωστό σε όλους πλέον <mark style="color:#00d084" class="has-inline-color">Minecraft</mark> είναι ένα <a href="https://el.wikipedia.org/wiki/%CE%92%CE%B9%CE%BD%CF%84%CE%B5%CE%BF%CF%80%CE%B1%CE%B9%CF%87%CE%BD%CE%AF%CE%B4%CE%B9_sandbox">sandbox</a> παιχνίδι δηλαδή ένα παιχνίδι όπου ο παίκτης (εσύ) μπορεί να επεξεργαστεί ελεύθερα τον κόσμο του</p>
+                        </div>
+                    </div>
+
+                    <h3>Άρα τι είναι;</h3>
+
+                    <p>Το Minecraft είναι ένα παιχνίδι που ξεκίνησε το 2009 από έναν Σουηδό προγραμματιστή (ο ξακουστός <mark style="color:#9b51e0" class="has-inline-color">Νότς</mark>) που αποφάσισε να το γράψει σε <mark style="color:#cf2e2e" class="has-inline-color">Java</mark>. Ή πιο απλά είναι ένα πολύ απλό παιχνίδι που έχει πολλές δυνατότητες και ελευθερίες. Είναι <strong>Open World</strong>. Αλλά η <mark style="color:#ff6900" class="has-inline-color">Mojang</mark> (η εταιρία που έφτιαξε το <mark style="color:#00d084" class="has-inline-color">Minecraft</mark>) επένδυσε στο ότι η <mark style="color:#cf2e2e" class="has-inline-color">Java</mark> υποστηρίζετε από πολλές συσκευές και λειτουργικά συστήματα. Όπως τα Windows, Mac, Android, iOS, Linux και ChromeOS. Μόνο που οι κονσόλες και τα κινητά (τα smartphones υποστηρίζουν <mark style="color:#cf2e2e" class="has-inline-color">Java</mark> αλλά δεν έγινε εκεί το <mark style="color:#00d084" class="has-inline-color">Minecraft</mark>) δεν υποστηρίζουν <mark style="color:#cf2e2e" class="has-inline-color">Java</mark>. Οπότε εκεί φτιάχνεται το <strong>Bedrock Edition</strong> (δεν υποστηρίζει <mark style="color:#7bdcb5" class="has-inline-color">mods</mark> αλλά μόνο <mark style="color:#7bdcb5" class="has-inline-color">plugins</mark>). Που έχει ως σκοπό να υποστηρίζεται από όσες πλατφόρμες δεν υποστηρίζονταν μέχρι τότε. Δηλαδή Android, iOS, PlayStation, Xbox και Nintedo. Το <strong>Bedrock</strong> είναι γραμμένο σε <mark style="color:#cf2e2e" class="has-inline-color">C++</mark> και έχει κάποιες διαφορετικές λειτουργίες από την μεριά του παιχνιδιού αλλά η <strong>Java Edition</strong> παραμένει πιο ελεύθερη και παρόλο που χάνει από μεριά υποστήριξης προσφέρει περισσότερες δυνατότητες. Η <strong>Java Edition</strong> με την <strong>Bedrock</strong> (που παλιά λεγόταν <strong>Pocket Edition</strong>) χρειάζεται ειδική ρύθμιση ώστε να υποστηρίζονται μεταξύ τους και να μπορούν να συνδέονται στους ίδιους <mark style="color:#00d084" class="has-inline-color">Servers</mark></p>
+
+                    <figure class="wp-block-table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Java Edition</strong> (2009)</td>
+                                    <td><strong>Bedrock Edition</strong> (2011)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong><mark style="color:#9b51e0" class="has-inline-color">Υπολογιστές (pc/laptop): </mark></strong>Windows, Mac, Linux και ChromeOS (με Linux υποστήριξη)</td>
+                                    <td><strong><mark style="color:#9b51e0" class="has-inline-color">Υπολογιστές (pc/laptop)</mark><mark style="color:#f78da7" class="has-inline-color">: </mark></strong>Windows, ChromeOS (ως android) και Linux (μη επίσημη κυκλοφορία)</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><mark style="color:#9b51e0" class="has-inline-color"><strong>Κινητά:</strong></mark> Android, iOS και Windows Phone (εκτός υποστήριξης)</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><mark style="color:#9b51e0" class="has-inline-color"><strong>Κονσόλες:</strong></mark> PlayStation, Xbox και Nintedo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <figcaption>Παρόλο που η <strong>Java Edition</strong> υποστηρίζει λιγότερα λειτουργικά συστήματα έχει τις περισσότερες λήψεις</figcaption>
+                    </figure>
+
+                    <h3>Από που το κατεβάζω;</h3>
+
+                    <p>Υπάρχουν διάφορες εναλλακτικές για να κατεβάσει κανείς <mark style="color:#00d084" class="has-inline-color">Minecraft</mark>. Όμως το από που θα κατέβει εξαρτάται από τις 2 κατηγορίες των παικτών. Αυτούς που έχουν αγοράσει το <mark style="color:#00d084" class="has-inline-color">Minecraft</mark> και αυτούς που δεν το έχουν αγοράσει. Η εφαρμογή που ανοίγει πρώτη (το μενού δηλαδή με της επιλογές της έκδοσης) είναι ο <mark style="color:#8ed1fc" class="has-inline-color">Launcher</mark> (εκκινητής) ενώ αφού ανοίξει το <mark style="color:#00d084" class="has-inline-color">Minecraft</mark> τότε λέγεται <mark style="color:#8ed1fc" class="has-inline-color">client</mark> (πελάτης)</p>
+
+                    <p><strong>Με αγορασμένη άδεια χρήσης</strong><em> (Java + Bedrock Edition)</em></p>
+
+                    <ul>
+                        <li><a href="https://www.minecraft.net/en-us/download">Minecraft Launcher</a> (Windows, Mac και Linux)</li>
+                        <li><a href="https://feathermc.com">Feather</a> (Windows και Mac)</li>
+                        <li><a href="https://www.lunarclient.com/download">Lunar</a> (Windows, Mac και Linux)</li>
+                        <li><a href="https://www.badlion.net">Badlion</a> – με περιορισμένη υποστήριξη στις versions (Windows, Mac και Linux)</li>
+                    </ul>
+
+                    <p>Με μη αγορασμένη άδεια χρήσης <em>(Java Edition)</em></p>
+
+                    <ul>
+                        <li><a href="https://tlauncher.org/en/">TLauncher</a> (Windows, Mac και Linux)</li>
+                    </ul>
+
+                    <h3>Βοήθεια</h3>
+
+                    <figure class="wp-block-embed">
+                        <div class="wp-block-embed__wrapper">
+                            <iframe width="640" height="360" src="https://www.youtube.com/embed/IPqcKc5XibQ?version=3&rel=1&showsearch=0&showinfo=1&iv_load_policy=1&fs=1&hl=el&autohide=2&wmode=transparent" allowfullscreen="true" style="border:0;" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox"></iframe>
+                        </div>
+                        <figcaption>Για τους χρήστες του <a href="https://tlauncher.org/en/">TLauncher</a> υπάρχει και ένα βίντεο για το πως το κατεβαίνει και γίνετε να εγκατασταθεί</figcaption>
+                    </figure>
+
+                    <h3>Διαφορές ανάμεσα στο Tlauncher και στα υπόλοιπα με αγορασμένη άδεια χρήσης</h3>
+
+                    <p>Η κύρια διαφορά τους είναι η υποστήριξη. Σε πολλούς <mark style="color:#00d084" class="has-inline-color">Minecraft Servers</mark> κλείνουν την δυνατότητα να μπορούν να μπουν και οι <mark style="color:#0693e3" class="has-inline-color">cracked-clients</mark> οπότε οι <mark style="color:#0693e3" class="has-inline-color">TLaunchers</mark> χρήστες δεν μπορούν να συνδεθούν. Όμως πέρα από αυτό δεν υποστηρίζουν τα ίδια <mark style="color:#7bdcb5" class="has-inline-color">mods</mark>. Υπάρχουν <mark style="color:#7bdcb5" class="has-inline-color">mods</mark> που είναι διαθέσιμα αποκλειστικά σε αυτούς με αγορασμένη άδεια και υπάρχουν κι' άλλα που είναι διαθέσιμα μόνο στους <mark style="color:#0693e3" class="has-inline-color">TLaunchers</mark> χρήστες. Αυτό γίνετε λόγο του ότι το <mark style="color:#0693e3" class="has-inline-color"><a href="https://tlauncher.org/en/">TLauncher</a></mark> έχει διαφορετική δομή από μεριά προγραμματισμού από ότι αυτά με αγορασμένη άδεια (άρα και διαφορετικό τρόπο εκτέλεσης και υποστήριξης). Όμως στους <strong>Servers</strong> της <mark style="color:#fcb900" class="has-inline-color">FlopDroid</mark> όλα τα mods είναι διαθέσιμα για όλους τους <mark style="color:#0693e3" class="has-inline-color">clients</mark>. Αυτός είναι και ένας από τους λόγους που φτιάχτηκαν τα <mark style="color:#7bdcb5" class="has-inline-color">plugins</mark>, ώστε να αποφευχθούν τα σφάλματα και τα προβλήματα από την μεριά του <mark style="color:#0693e3" class="has-inline-color">client</mark>.</p>
+
+                    <p>Στην ουσία το <mark style="color:#7bdcb5" class="has-inline-color">Minecraft</mark> είναι ένα παιχνίδι που υποστηρίζεται εδώ και χρόνια από διάφορες πλατφόρμες και μάλιστα ακόμα και σήμερα έχει μεγάλο ενδιαφέρον για <strong>gamers</strong> και <strong>developers</strong> κρατώντας χαμηλά τις απαιτήσεις συστήματος ώστε να υποστηρίζεται και από τις αδύναμες συσκευές. Για περισσότερες πληροφορίες για το τι είναι το <mark style="color:#00d084" class="has-inline-color">Minecraft</mark> μπορεί κανείς να μεταβεί και στην <a href="https://el.wikipedia.org/wiki/Minecraft">Βικιπαίδεια</a></p>
+                </main>
+            </article>
+        </div>
+
+        <footer>
+            <p>FlopDroid 2025 ©<br>
+                <strong>
+                    <a href="https://raw.githubusercontent.com/FlopDroid/Pocket_Data/refs/heads/main/plain/Privacy%20Policy%20and%20Terms%20of%20Use%20and%20Credits.txt" target="_blank" rel="noreferrer noopener">
+                        Όροι Χρήσης και Πολιτική Απορρήτου
+                    </a>
+                </strong>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
