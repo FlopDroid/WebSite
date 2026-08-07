@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://flopdroid.github.io/WebSite/Pages/style.css">
+    <link rel="stylesheet" href="assets/store-style.css">
+    <style>
+        :root {
+            --mc-grass: #6bbf59;
+            --mc-grass-dim: rgba(107, 191, 89, 0.14);
+            --mc-dirt: #8a5a3c;
+        }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 0 var(--wp--preset--spacing--30); }
+
+        /* Pixel-strip accent — the page's signature element:
+           a blocky grass/dirt strip standing in for a Minecraft
+           "world" horizon line, rendered in the site's own palette */
+        .mc-horizon {
+            height: 14px;
+            margin: 0 auto var(--wp--preset--spacing--50);
+            max-width: 820px;
+            background:
+                linear-gradient(90deg, var(--mc-grass) 0 8px, transparent 8px) repeat-x,
+                linear-gradient(180deg, var(--mc-grass) 0 6px, var(--mc-dirt) 6px 14px);
+            background-size: 16px 14px, 100% 14px;
+            border-radius: 3px;
+            box-shadow: 0 0 24px rgba(107, 191, 89, 0.25);
+            image-rendering: pixelated;
+        }
+
+        .mc-hero {
+            text-align: center;
+            padding: var(--wp--preset--spacing--50) 0 var(--wp--preset--spacing--40);
+        }
+        .mc-hero img {
+            width: 140px; height: 140px; object-fit: cover;
+            border-radius: var(--radius-md);
+            box-shadow: 0 0 0 1px var(--border-strong), 0 0 40px rgba(107, 191, 89, 0.2);
+            margin-bottom: 1rem;
+            image-rendering: pixelated;
+        }
+        .mc-hero h1 { margin-bottom: 0.3rem; }
+        .mc-hero .tagline { color: var(--text-soft); max-width: 520px; margin: 0 auto; }
+        .mc-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--mc-grass-dim);
+            border: 1px solid rgba(107, 191, 89, 0.35);
+            color: var(--mc-grass);
+            border-radius: 999px;
+            padding: 0.3em 0.9em;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Server address callout */
+        .server-address {
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+            background: linear-gradient(180deg, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--mc-grass);
+            border-radius: var(--radius-md);
+            padding: 1.1rem 1.3rem;
+            margin: var(--wp--preset--spacing--40) 0;
+            flex-wrap: wrap;
+        }
+        .server-address code {
+            font-family: 'Inter', monospace;
+            font-size: 1.05rem;
+            color: var(--text);
+        }
+        .copy-btn {
+            border: 1px solid var(--border-strong);
+            background: transparent;
+            color: var(--text-soft);
+            border-radius: 999px;
+            padding: 0.4em 1em;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s var(--ease);
+        }
+        .copy-btn:hover { border-color: var(--mc-grass); color: var(--mc-grass); }
+        .copy-btn.copied { color: var(--mc-grass); border-color: var(--mc-grass); }
+
+        /* Feature "slots" — reusing the store's inventory-slot look */
+        .mc-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--wp--preset--spacing--30);
+            margin: var(--wp--preset--spacing--50) 0;
+        }
+        .mc-feature {
+            text-align: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem 0.8rem;
+            transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+        }
+        .mc-feature:hover { transform: translateY(-3px); border-color: rgba(107, 191, 89, 0.4); }
+        .mc-feature .emoji { font-size: 1.6rem; display: block; margin-bottom: 0.4rem; }
+        .mc-feature p { margin: 0; font-size: 0.82rem; color: var(--text-soft); }
+
+        /* Store CTA banner */
+        .store-cta {
+            text-align: center;
+            background: linear-gradient(160deg, var(--mc-grass-dim), var(--primary-dim));
+            border: 1px solid rgba(107, 191, 89, 0.3);
+            border-radius: var(--radius-lg);
+            padding: var(--wp--preset--spacing--50);
+            margin: var(--wp--preset--spacing--60) 0;
+        }
+        .store-cta h3 { margin-top: 0; }
+        .store-cta p { color: var(--text-soft); max-width: 440px; margin: 0 auto 1.2rem; }
+        .store-cta .btn-primary {
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.75em 2.2em;
+            font-size: 0.95rem;
+        }
+
+        .secondary-links { text-align: center; margin-top: 0.8rem; }
+        .secondary-links a { font-size: 0.85rem; color: var(--text-faint); }
+    </style>
+</head>
+<body>
+    <div class="wp-site-blocks">
+
+        <!-- Menu -->
+        <div class="wp-block-group is-vertical is-content-justification-right is-layout-flex is-position-sticky">
+            <div class="wp-block-buttons is-content-justification-right is-layout-flex">
+                <div class="wp-block-button is-style-outline is-style-outline--1">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite">Home</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/minecraft.html" aria-current="page">Minecraft</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/Help">Help</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--2">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/stats.html">Stats</a>
+                </div>
+                <div class="wp-block-button is-style-outline is-style-outline--3">
+                    <a class="wp-block-button__link" href="https://flopdroid.github.io/WebSite/Pages/about.html">About</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mc-horizon" aria-hidden="true"></div>
+
+        <div class="container">
+            <div class="mc-hero">
+                <img src="https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png" alt="FlopDroid Logo">
+                <div class="mc-badge"><span class="live-dot" aria-hidden="true"></span>Server Online</div>
+                <h1>FlopDroid Minecraft</h1>
+                <p class="tagline">Ένας ελληνικός Minecraft server με Java &amp; Bedrock υποστήριξη, δικά μας events, και ένα κατάστημα όπου ξοδεύεις ό,τι μαζεύεις μέσα στο παιχνίδι.</p>
+            </div>
+
+            <div class="server-address">
+                <div>
+                    <div style="font-size:0.75rem;color:var(--text-faint);margin-bottom:2px;">SERVER ADDRESS</div>
+                    <code id="serverAddr">flopdroid.ddns.net</code>
+                </div>
+                <button class="copy-btn" id="copyBtn">Copy</button>
+            </div>
+
+            <div class="mc-features">
+                <div class="mc-feature"><span class="emoji">⛏️</span><p>Java 1.21.10<br>(Optifine)</p></div>
+                <div class="mc-feature"><span class="emoji">📱</span><p>Bedrock 1.21.11x–1.21.130</p></div>
+                <div class="mc-feature"><span class="emoji">💬</span><p>Discord ↔ in-game chat</p></div>
+                <div class="mc-feature"><span class="emoji">🎁</span><p>Ranks, crates &amp; cosmetics</p></div>
+            </div>
+
+            <div class="store-cta">
+                <h3>🪙 Spend what you earn in-game</h3>
+                <p>Ranks, crate keys, and cosmetics — bought with FlopCoins you collect on the server.</p>
+                <a href="store.html" class="btn-primary">Visit the Store</a>
+                <div class="secondary-links">
+                    <a href="stats.html">Full server stats &amp; FAQ →</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>FlopDroid 2025 ©<br>
+                <strong><a href="https://raw.githubusercontent.com/FlopDroid/Pocket_Data/refs/heads/main/plain/Privacy%20Policy%20and%20Terms%20of%20Use%20and%20Credits.txt" target="_blank" rel="noreferrer noopener">Όροι Χρήσης και Πολιτική Απορρήτου</a></strong>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const text = document.getElementById('serverAddr').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+            });
+        });
+    </script>
+</body>
+</html>
