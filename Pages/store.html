@@ -91,7 +91,7 @@
             <button class="modal-close" data-close-modal>&times;</button>
             <h3>Sign in</h3>
             <form id="signInForm">
-                <div class="field"><label>Username or email</label><input type="text" id="siUser" required></div>
+                <div class="field"><label>Username</label><input type="text" id="siUser" required></div>
                 <div class="field"><label>Password</label><input type="password" id="siPass" required></div>
                 <div class="field-error" id="siError"></div>
                 <button class="btn-primary btn-block" type="submit">Sign in</button>
@@ -151,7 +151,7 @@
 
     <div class="toast-stack" id="toastStack"></div>
 
-    <script src="assets/db.js"></script>
-    <script src="assets/store.js"></script>
+    <script type="module" src="assets/db.js"></script>
+    <script type="module" src="assets/store.js"></script>
 </body>
 </html>
