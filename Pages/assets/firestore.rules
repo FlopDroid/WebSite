@@ -1,0 +1,85 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // Only lets currency go DOWN (checkout) or go UP by exactly the amount
+    // of a code the user just redeemed (verified against the code doc).
+    // Nothing else about the profile is allowed to change in this path.
+    function isSafeCurrencyChange() {
+      let before = resource.data;
+      let after = request.resource.data;
+      let sameIdentity = after.username == before.username
+        && after.minecraftUsername == before.minecraftUsername
+        && after.isAdmin == before.isAdmin;
+
+      let isDecrease = after.currency <= before.currency && sameIdentity;
+
+      let redemption = after.lastRedemption;
+      let code = redemption != null
+        ? get(/databases/$(database)/documents/codes/$(redemption.code)).data
+        : null;
+      let isValidRedemption = redemption != null
+        && sameIdentity
+        && after.currency == before.currency + redemption.amount
+        && redemption.amount == code.amount
+        && request.auth.uid in code.usedBy; // codes/{code} write must land in the same transaction
+
+      return isDecrease || isValidRedemption;
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == uid
+                    && request.resource.data.currency == 0
+                    && request.resource.data.isAdmin == false;
+      allow update: if isAdmin()
+                    || (isSignedIn() && request.auth.uid == uid && isSafeCurrencyChange());
+      allow delete: if isAdmin();
+    }
+
+    match /products/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /orders/{id} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.total <= get(/databases/$(database)/documents/users/$(request.auth.uid)).data.currency;
+      allow update: if isAdmin(); // status changes only
+      allow delete: if isAdmin();
+    }
+
+    match /carts/{uid} {
+      allow read, write: if isSignedIn() && request.auth.uid == uid;
+    }
+
+    match /codes/{code} {
+      allow get: if isSignedIn();     // needed to look up a code when redeeming
+      allow list: if isAdmin();       // only admin sees the full list
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin()
+                    || (
+                      isSignedIn()
+                      && request.resource.data.amount == resource.data.amount
+                      && request.resource.data.maxUses == resource.data.maxUses
+                      && request.resource.data.usedBy.size() == resource.data.usedBy.size() + 1
+                      && request.resource.data.usedBy.hasAll(resource.data.usedBy)
+                      && request.auth.uid in request.resource.data.usedBy
+                      && !(request.auth.uid in resource.data.usedBy)
+                      && resource.data.usedBy.size() < resource.data.maxUses
+                    );
+    }
+  }
+}

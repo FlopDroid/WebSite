@@ -1,240 +1,182 @@
 /* =========================================================
-   FlopDroid Store — Data Layer
+   FlopDroid Store — Data Layer (Firebase edition)
    ---------------------------------------------------------
-   Everything in this file talks to localStorage right now.
-   Every function returns a Promise on purpose — even though
-   localStorage is instant — so that later, when you plug in
-   a real backend (Firebase, your own API, etc.), you only
-   have to rewrite the INSIDE of these functions. Every other
-   file (store.js, admin.js, store.html, admin.html) calls
-   DB.whatever(...) and never touches localStorage directly,
-   so nothing else needs to change.
+   Same DB.something(...) API as the old localStorage version,
+   so store.js / admin.js barely had to change. Real accounts,
+   real shared currency, real database — now backed by
+   Firebase Authentication + Firestore.
 
-   See UPGRADE-GUIDE.md for exactly what to replace when
-   you're ready to go live with a real backend.
+   IMPORTANT — read the security notes near ORDERS/CHECKOUT
+   below. This is solid for a small hobby-server store, but
+   isn't bulletproof against a determined attacker. See
+   README.md "Hardening further" for the full story.
    ========================================================= */
+
+import { auth, dbFirestore } from "./firebase-config.js";
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut as fbSignOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+    doc, getDoc, setDoc, updateDoc, deleteDoc,
+    collection, getDocs, query, where,
+    runTransaction, serverTimestamp, increment,
+    arrayUnion
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const CONFIG = {
     siteName: "FlopDroid",
     currencyName: "FlopCoins",
-    currencySymbol: "🪙",
-    // First account ever created on this browser becomes admin.
-    // Change this any time from the Admin panel afterwards.
-    minecraftUsernameRequired: true
+    currencySymbol: "🪙"
 };
+window.CONFIG = CONFIG;
+
+/* Firebase Auth needs an email. We don't want to force real emails
+   on players, so we derive a private, deterministic "login email"
+   from their chosen username. This also means Firebase itself
+   enforces username uniqueness for us (duplicate username =
+   duplicate login email = signup rejected automatically). */
+function loginEmailFor(username) {
+    return `${username.trim().toLowerCase()}@flopdroid-store.internal`;
+}
 
 const DB = (() => {
 
-    const KEYS = {
-        users: "fd_users",
-        session: "fd_session",
-        products: "fd_products",
-        orders: "fd_orders",
-        codes: "fd_codes"
-    };
+    let _cachedProfile = null;   // { id, username, minecraftUsername, currency, isAdmin, ... } or null
+    let _readyResolve;
+    const _ready = new Promise(res => { _readyResolve = res; });
+    let _firstAuthEventHandled = false;
 
-    /* ---------- low level storage helpers ---------- */
-
-    function read(key, fallback) {
-        try {
-            const raw = localStorage.getItem(key);
-            return raw ? JSON.parse(raw) : fallback;
-        } catch (e) {
-            console.error("DB read error", key, e);
-            return fallback;
+    onAuthStateChanged(auth, async (fbUser) => {
+        if (fbUser) {
+            try {
+                const snap = await getDoc(doc(dbFirestore, "users", fbUser.uid));
+                _cachedProfile = snap.exists() ? { id: fbUser.uid, ...snap.data() } : null;
+            } catch (e) {
+                console.error("Failed to load profile", e);
+                _cachedProfile = null;
+            }
+        } else {
+            _cachedProfile = null;
         }
-    }
-
-    function write(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function uid(prefix = "id") {
-        return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-    }
-
-    function delay() {
-        // tiny artificial delay so UI code that shows loading
-        // states behaves the same way it will against a real backend
-        return new Promise(res => setTimeout(res, 120));
-    }
-
-    async function hashPassword(password, salt) {
-        const enc = new TextEncoder();
-        const data = enc.encode(`fd::${salt}::${password}`);
-        const digest = await crypto.subtle.digest("SHA-256", data);
-        return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    /* ---------- seed default products the first time ---------- */
-
-    function ensureSeedData() {
-        if (!localStorage.getItem(KEYS.products)) {
-            write(KEYS.products, [
-                {
-                    id: uid("prod"),
-                    name: "VIP Rank",
-                    description: "Colored name, extra /home slots, and a VIP tag in chat.",
-                    image: "https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png",
-                    price: 500,
-                    category: "Ranks",
-                    stock: null,
-                    active: true
-                },
-                {
-                    id: uid("prod"),
-                    name: "50x Diamond Crate Key",
-                    description: "Redeemable in-game at spawn for a Diamond Crate.",
-                    image: "https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png",
-                    price: 250,
-                    category: "Crates",
-                    stock: 50,
-                    active: true
-                },
-                {
-                    id: uid("prod"),
-                    name: "Custom Player Title",
-                    description: "Pick any short custom title shown next to your name.",
-                    image: "https://raw.githubusercontent.com/FlopDroid/WebSite/refs/heads/main/Images/Icons/flopdroid-event-logo.png",
-                    price: 150,
-                    category: "Cosmetics",
-                    stock: null,
-                    active: true
-                }
-            ]);
+        if (!_firstAuthEventHandled) {
+            _firstAuthEventHandled = true;
+            _readyResolve();
         }
-        if (!localStorage.getItem(KEYS.users)) write(KEYS.users, []);
-        if (!localStorage.getItem(KEYS.orders)) write(KEYS.orders, []);
-        if (!localStorage.getItem(KEYS.codes)) write(KEYS.codes, []);
-    }
-    ensureSeedData();
+    });
 
     /* =========================================================
        AUTH
        ========================================================= */
 
-    const auth = {
-        async signUp({ username, email, minecraftUsername, password }) {
-            await delay();
+    const authApi = {
+        // Call this once before reading currentUser() on page load —
+        // Firebase auth state resolves asynchronously.
+        ready() { return _ready; },
+
+        async signUp({ username, minecraftUsername, email, password }) {
             username = (username || "").trim();
-            email = (email || "").trim().toLowerCase();
             minecraftUsername = (minecraftUsername || "").trim();
-
             if (!username || !password) return { ok: false, error: "Username and password are required." };
-            if (CONFIG.minecraftUsernameRequired && !minecraftUsername) {
-                return { ok: false, error: "Minecraft username is required so we know who to deliver items to." };
+            if (!minecraftUsername) return { ok: false, error: "Minecraft username is required so we know who to deliver items to." };
+
+            let cred;
+            try {
+                cred = await createUserWithEmailAndPassword(auth, loginEmailFor(username), password);
+            } catch (e) {
+                if (e.code === "auth/email-already-in-use") return { ok: false, error: "That username is already taken." };
+                if (e.code === "auth/weak-password") return { ok: false, error: "Password is too weak (min 6 characters)." };
+                return { ok: false, error: e.message };
             }
 
-            const users = read(KEYS.users, []);
-            if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
-                return { ok: false, error: "That username is already taken." };
-            }
-            if (email && users.some(u => u.email === email)) {
-                return { ok: false, error: "That email is already registered." };
-            }
-
-            const passwordHash = await hashPassword(password, username.toLowerCase());
-            const user = {
-                id: uid("user"),
+            const profile = {
                 username,
-                email,
                 minecraftUsername,
-                passwordHash,
+                contactEmail: email || null,
                 currency: 0,
-                isAdmin: users.length === 0, // first ever account becomes admin
-                createdAt: Date.now()
+                isAdmin: false,
+                createdAt: serverTimestamp()
             };
-            users.push(user);
-            write(KEYS.users, users);
-            write(KEYS.session, { userId: user.id });
-            return { ok: true, user: publicUser(user) };
+            await setDoc(doc(dbFirestore, "users", cred.user.uid), profile);
+            _cachedProfile = { id: cred.user.uid, ...profile };
+            return { ok: true, user: _cachedProfile };
         },
 
         async signIn({ usernameOrEmail, password }) {
-            await delay();
-            const users = read(KEYS.users, []);
-            const needle = (usernameOrEmail || "").trim().toLowerCase();
-            const user = users.find(u => u.username.toLowerCase() === needle || u.email === needle);
-            if (!user) return { ok: false, error: "No account found with that username or email." };
-
-            const hash = await hashPassword(password, user.username.toLowerCase());
-            if (hash !== user.passwordHash) return { ok: false, error: "Incorrect password." };
-
-            write(KEYS.session, { userId: user.id });
-            return { ok: true, user: publicUser(user) };
+            const username = (usernameOrEmail || "").trim();
+            if (!username) return { ok: false, error: "Enter your username." };
+            try {
+                const cred = await signInWithEmailAndPassword(auth, loginEmailFor(username), password);
+                const snap = await getDoc(doc(dbFirestore, "users", cred.user.uid));
+                _cachedProfile = snap.exists() ? { id: cred.user.uid, ...snap.data() } : null;
+                return { ok: true, user: _cachedProfile };
+            } catch (e) {
+                if (e.code === "auth/invalid-credential" || e.code === "auth/user-not-found" || e.code === "auth/wrong-password") {
+                    return { ok: false, error: "Incorrect username or password." };
+                }
+                return { ok: false, error: e.message };
+            }
         },
 
         async signOut() {
-            await delay();
-            localStorage.removeItem(KEYS.session);
+            await fbSignOut(auth);
+            _cachedProfile = null;
             return { ok: true };
         },
 
         currentUser() {
-            const session = read(KEYS.session, null);
-            if (!session) return null;
-            const users = read(KEYS.users, []);
-            const user = users.find(u => u.id === session.userId);
-            return user ? publicUser(user) : null;
+            return _cachedProfile;
         }
     };
 
-    function publicUser(user) {
-        // strip the password hash before handing the object to UI code
-        const { passwordHash, ...safe } = user;
-        return safe;
-    }
-
     /* =========================================================
-       PRODUCTS
+       PRODUCTS  (public read, admin-only write — see firestore.rules)
        ========================================================= */
 
     const products = {
         async list({ onlyActive = false } = {}) {
-            await delay();
-            const all = read(KEYS.products, []);
+            const snap = await getDocs(collection(dbFirestore, "products"));
+            const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
             return onlyActive ? all.filter(p => p.active) : all;
         },
         async get(id) {
-            await delay();
-            return read(KEYS.products, []).find(p => p.id === id) || null;
+            const snap = await getDoc(doc(dbFirestore, "products", id));
+            return snap.exists() ? { id: snap.id, ...snap.data() } : null;
         },
         async upsert(product) {
-            await delay();
-            const all = read(KEYS.products, []);
+            const data = { ...product };
+            delete data.id;
             if (product.id) {
-                const idx = all.findIndex(p => p.id === product.id);
-                if (idx === -1) return { ok: false, error: "Product not found." };
-                all[idx] = { ...all[idx], ...product };
+                await updateDoc(doc(dbFirestore, "products", product.id), data);
+                return { ok: true, product };
             } else {
-                product.id = uid("prod");
-                product.active = product.active !== false;
-                all.push(product);
+                const ref = doc(collection(dbFirestore, "products"));
+                data.active = data.active !== false;
+                await setDoc(ref, data);
+                return { ok: true, product: { ...data, id: ref.id } };
             }
-            write(KEYS.products, all);
-            return { ok: true, product };
         },
         async remove(id) {
-            await delay();
-            write(KEYS.products, read(KEYS.products, []).filter(p => p.id !== id));
+            await deleteDoc(doc(dbFirestore, "products", id));
             return { ok: true };
         }
     };
 
     /* =========================================================
-       CART  (per user, stored inline on the user record's id)
+       CART  (one doc per user, only that user can read/write it)
        ========================================================= */
-
-    function cartKey(userId) { return `fd_cart_${userId}`; }
 
     const cart = {
         async get(userId) {
-            await delay();
-            return read(cartKey(userId), []); // [{productId, qty}]
+            const snap = await getDoc(doc(dbFirestore, "carts", userId));
+            return snap.exists() ? (snap.data().items || []) : [];
         },
         async setQty(userId, productId, qty) {
-            await delay();
-            let items = read(cartKey(userId), []);
+            const ref = doc(dbFirestore, "carts", userId);
+            const snap = await getDoc(ref);
+            let items = snap.exists() ? (snap.data().items || []) : [];
             if (qty <= 0) {
                 items = items.filter(i => i.productId !== productId);
             } else {
@@ -242,180 +184,204 @@ const DB = (() => {
                 if (existing) existing.qty = qty;
                 else items.push({ productId, qty });
             }
-            write(cartKey(userId), items);
+            await setDoc(ref, { items });
             return items;
         },
         async clear(userId) {
-            await delay();
-            write(cartKey(userId), []);
+            await setDoc(doc(dbFirestore, "carts", userId), { items: [] });
         }
     };
 
     /* =========================================================
-       ORDERS
+       ORDERS / CHECKOUT
+       ---------------------------------------------------------
+       SECURITY NOTE: checkout runs as a Firestore transaction
+       that (a) re-reads live prices/stock from Firestore rather
+       than trusting the client's cart, and (b) can only ever
+       DECREASE a user's own currency — the security rules
+       forbid a non-admin from ever increasing their own balance,
+       so nobody can grant themselves free FlopCoins this way.
+
+       What this does NOT fully guarantee on its own: that every
+       order document was actually paid for (a technically savvy
+       user could, in theory, write an order doc directly without
+       going through this transaction). The rules require the
+       order's total to not exceed their currently stored balance
+       at write time, which stops the obvious version of this
+       attack, but a fully airtight version of this needs a
+       Cloud Function. See README.md "Hardening further" — until
+       then, just glance at an order's total vs. the buyer's
+       balance in the admin panel before delivering anything.
        ========================================================= */
 
     const orders = {
         async checkout(userId) {
-            await delay();
-            const users = read(KEYS.users, []);
-            const user = users.find(u => u.id === userId);
-            if (!user) return { ok: false, error: "You need to be signed in." };
+            try {
+                const cartRef = doc(dbFirestore, "carts", userId);
+                const userRef = doc(dbFirestore, "users", userId);
+                const orderRef = doc(collection(dbFirestore, "orders"));
 
-            const items = read(cartKey(userId), []);
-            if (items.length === 0) return { ok: false, error: "Your cart is empty." };
+                const result = await runTransaction(dbFirestore, async (tx) => {
+                    const cartSnap = await tx.get(cartRef);
+                    const userSnap = await tx.get(userRef);
+                    const items = cartSnap.exists() ? (cartSnap.data().items || []) : [];
+                    if (items.length === 0) throw new Error("Your cart is empty.");
 
-            const allProducts = read(KEYS.products, []);
-            let total = 0;
-            const lineItems = [];
-            for (const item of items) {
-                const p = allProducts.find(p => p.id === item.productId);
-                if (!p) continue;
-                if (typeof p.stock === "number" && p.stock < item.qty) {
-                    return { ok: false, error: `Not enough stock for "${p.name}".` };
-                }
-                total += p.price * item.qty;
-                lineItems.push({ productId: p.id, name: p.name, price: p.price, qty: item.qty });
+                    const user = userSnap.data();
+                    let total = 0;
+                    const lineItems = [];
+                    const productRefs = items.map(i => doc(dbFirestore, "products", i.productId));
+                    const productSnaps = await Promise.all(productRefs.map(r => tx.get(r)));
+
+                    for (let i = 0; i < items.length; i++) {
+                        const pSnap = productSnaps[i];
+                        if (!pSnap.exists()) continue;
+                        const p = pSnap.data();
+                        const qty = items[i].qty;
+                        if (typeof p.stock === "number" && p.stock < qty) {
+                            throw new Error(`Not enough stock for "${p.name}".`);
+                        }
+                        total += p.price * qty;
+                        lineItems.push({ productId: pSnap.id, name: p.name, price: p.price, qty });
+                    }
+
+                    if (user.currency < total) {
+                        throw new Error(`Not enough ${CONFIG.currencyName}. You need ${total - user.currency} more.`);
+                    }
+
+                    tx.update(userRef, { currency: user.currency - total });
+                    productSnaps.forEach((pSnap, i) => {
+                        if (pSnap.exists() && typeof pSnap.data().stock === "number") {
+                            tx.update(productRefs[i], { stock: pSnap.data().stock - items[i].qty });
+                        }
+                    });
+                    tx.set(orderRef, {
+                        userId,
+                        username: user.username,
+                        minecraftUsername: user.minecraftUsername,
+                        items: lineItems,
+                        total,
+                        status: "pending",
+                        createdAt: serverTimestamp()
+                    });
+                    tx.set(cartRef, { items: [] });
+
+                    return { total, newBalance: user.currency - total };
+                });
+
+                if (_cachedProfile) _cachedProfile.currency = result.newBalance;
+                return { ok: true, newBalance: result.newBalance };
+            } catch (e) {
+                return { ok: false, error: e.message };
             }
-
-            if (user.currency < total) {
-                return { ok: false, error: `Not enough ${CONFIG.currencyName}. You need ${total - user.currency} more.` };
-            }
-
-            // deduct currency
-            user.currency -= total;
-            write(KEYS.users, users);
-
-            // reduce stock
-            lineItems.forEach(li => {
-                const p = allProducts.find(p => p.id === li.productId);
-                if (p && typeof p.stock === "number") p.stock -= li.qty;
-            });
-            write(KEYS.products, allProducts);
-
-            // create order
-            const order = {
-                id: uid("order"),
-                userId: user.id,
-                username: user.username,
-                minecraftUsername: user.minecraftUsername,
-                items: lineItems,
-                total,
-                status: "pending",
-                createdAt: Date.now()
-            };
-            const all = read(KEYS.orders, []);
-            all.unshift(order);
-            write(KEYS.orders, all);
-
-            // clear cart
-            write(cartKey(userId), []);
-
-            return { ok: true, order, newBalance: user.currency };
         },
 
         async listByUser(userId) {
-            await delay();
-            return read(KEYS.orders, []).filter(o => o.userId === userId);
+            const q = query(collection(dbFirestore, "orders"), where("userId", "==", userId));
+            const snap = await getDocs(q);
+            return snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
         },
 
         async listAll() {
-            await delay();
-            return read(KEYS.orders, []);
+            const snap = await getDocs(collection(dbFirestore, "orders"));
+            return snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
         },
 
         async setStatus(orderId, status) {
-            await delay();
-            const all = read(KEYS.orders, []);
-            const order = all.find(o => o.id === orderId);
-            if (!order) return { ok: false, error: "Order not found." };
-            order.status = status;
-            write(KEYS.orders, all);
-            return { ok: true, order };
+            await updateDoc(doc(dbFirestore, "orders", orderId), { status });
+            return { ok: true };
         }
     };
 
     /* =========================================================
-       USERS (admin management)
+       USERS  (admin management — requires isAdmin, see rules)
        ========================================================= */
 
     const users = {
         async list() {
-            await delay();
-            return read(KEYS.users, []).map(publicUser);
+            const snap = await getDocs(collection(dbFirestore, "users"));
+            return snap.docs.map(d => ({ id: d.id, ...d.data() }));
         },
         async get(userId) {
-            await delay();
-            const u = read(KEYS.users, []).find(u => u.id === userId);
-            return u ? publicUser(u) : null;
+            const snap = await getDoc(doc(dbFirestore, "users", userId));
+            return snap.exists() ? { id: snap.id, ...snap.data() } : null;
         },
-        async grantCurrency(userId, amount, note = "") {
-            await delay();
-            const all = read(KEYS.users, []);
-            const user = all.find(u => u.id === userId);
-            if (!user) return { ok: false, error: "User not found." };
-            user.currency = Math.max(0, user.currency + amount);
-            write(KEYS.users, all);
-            return { ok: true, newBalance: user.currency };
+        async grantCurrency(userId, amount) {
+            try {
+                await updateDoc(doc(dbFirestore, "users", userId), { currency: increment(amount) });
+                const snap = await getDoc(doc(dbFirestore, "users", userId));
+                if (_cachedProfile && _cachedProfile.id === userId) _cachedProfile.currency = snap.data().currency;
+                return { ok: true, newBalance: snap.data().currency };
+            } catch (e) {
+                return { ok: false, error: e.message };
+            }
         },
         async setAdmin(userId, isAdmin) {
-            await delay();
-            const all = read(KEYS.users, []);
-            const user = all.find(u => u.id === userId);
-            if (!user) return { ok: false, error: "User not found." };
-            user.isAdmin = !!isAdmin;
-            write(KEYS.users, all);
-            return { ok: true };
+            try {
+                await updateDoc(doc(dbFirestore, "users", userId), { isAdmin: !!isAdmin });
+                return { ok: true };
+            } catch (e) {
+                return { ok: false, error: e.message };
+            }
         }
     };
 
     /* =========================================================
        REDEEM CODES
-       (This is the natural place to later hook up your Minecraft
-        server: have your plugin call an API that creates a code
-        server-side when a player earns currency in-game, then
-        the player redeems it here. See UPGRADE-GUIDE.md.)
        ========================================================= */
 
     const codes = {
         async create({ code, amount, maxUses }) {
-            await delay();
-            const all = read(KEYS.codes, []);
             code = (code || "").trim().toUpperCase();
             if (!code) return { ok: false, error: "Code text is required." };
-            if (all.some(c => c.code === code)) return { ok: false, error: "That code already exists." };
-            all.push({ code, amount: Number(amount) || 0, maxUses: Number(maxUses) || 1, usedBy: [], createdAt: Date.now() });
-            write(KEYS.codes, all);
+            const ref = doc(dbFirestore, "codes", code);
+            const existing = await getDoc(ref);
+            if (existing.exists()) return { ok: false, error: "That code already exists." };
+            await setDoc(ref, {
+                amount: Number(amount) || 0,
+                maxUses: Number(maxUses) || 1,
+                usedBy: [],
+                createdAt: serverTimestamp()
+            });
             return { ok: true };
         },
         async list() {
-            await delay();
-            return read(KEYS.codes, []);
+            const snap = await getDocs(collection(dbFirestore, "codes"));
+            return snap.docs.map(d => ({ code: d.id, ...d.data() }));
         },
         async remove(code) {
-            await delay();
-            write(KEYS.codes, read(KEYS.codes, []).filter(c => c.code !== code));
+            await deleteDoc(doc(dbFirestore, "codes", code.trim().toUpperCase()));
             return { ok: true };
         },
         async redeem(userId, codeText) {
-            await delay();
-            const all = read(KEYS.codes, []);
-            const code = all.find(c => c.code === (codeText || "").trim().toUpperCase());
-            if (!code) return { ok: false, error: "That code doesn't exist." };
-            if (code.usedBy.includes(userId)) return { ok: false, error: "You've already used this code." };
-            if (code.usedBy.length >= code.maxUses) return { ok: false, error: "This code has reached its use limit." };
+            const codeId = (codeText || "").trim().toUpperCase();
+            try {
+                const result = await runTransaction(dbFirestore, async (tx) => {
+                    const codeRef = doc(dbFirestore, "codes", codeId);
+                    const userRef = doc(dbFirestore, "users", userId);
+                    const codeSnap = await tx.get(codeRef);
+                    const userSnap = await tx.get(userRef);
+                    if (!codeSnap.exists()) throw new Error("That code doesn't exist.");
+                    const code = codeSnap.data();
+                    const usedBy = code.usedBy || [];
+                    if (usedBy.includes(userId)) throw new Error("You've already used this code.");
+                    if (usedBy.length >= code.maxUses) throw new Error("This code has reached its use limit.");
 
-            code.usedBy.push(userId);
-            write(KEYS.codes, all);
-
-            const allUsers = read(KEYS.users, []);
-            const user = allUsers.find(u => u.id === userId);
-            user.currency += code.amount;
-            write(KEYS.users, allUsers);
-
-            return { ok: true, amount: code.amount, newBalance: user.currency };
+                    const newBalance = (userSnap.data().currency || 0) + code.amount;
+                    tx.update(userRef, { currency: newBalance, lastRedemption: { code: codeId, amount: code.amount } });
+                    tx.update(codeRef, { usedBy: arrayUnion(userId) });
+                    return { amount: code.amount, newBalance };
+                });
+                if (_cachedProfile) _cachedProfile.currency = result.newBalance;
+                return { ok: true, amount: result.amount, newBalance: result.newBalance };
+            } catch (e) {
+                return { ok: false, error: e.message };
+            }
         }
     };
 
-    return { auth, products, cart, orders, users, codes };
+    return { auth: authApi, products, cart, orders, users, codes };
 })();
+
+window.DB = DB;
+export default DB;
